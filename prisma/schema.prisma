@@ -17,4 +17,35 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  compras Compra[]
+}
+
+model Curso {
+  id Int @id @default(autoincrement())
+  title String 
+  description String
+
+  aula Aula[]
+
+  compras Compra[]
+  
+}
+
+model Aula {
+  id Int @id @default(autoincrement())
+  title String
+  videoUrl String
+ 
+  cursoId Int
+  curso Curso @relation(fields: [cursoId], references: [id])
+} 
+
+model Compra {
+  id Int @id @default(autoincrement())
+  userId Int 
+  cursoId Int 
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  curso Curso @relation(fields: [cursoId], references: [id])
 }
