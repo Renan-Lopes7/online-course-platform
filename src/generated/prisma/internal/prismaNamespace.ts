@@ -397,7 +397,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Curso: 'Curso',
+  Aula: 'Aula',
+  Compra: 'Compra'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "user" | "curso" | "aula" | "compra"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -483,6 +486,204 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Curso: {
+      payload: Prisma.$CursoPayload<ExtArgs>
+      fields: Prisma.CursoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CursoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CursoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        findFirst: {
+          args: Prisma.CursoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CursoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        findMany: {
+          args: Prisma.CursoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>[]
+        }
+        create: {
+          args: Prisma.CursoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        createMany: {
+          args: Prisma.CursoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.CursoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        update: {
+          args: Prisma.CursoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        deleteMany: {
+          args: Prisma.CursoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CursoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.CursoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursoPayload>
+        }
+        aggregate: {
+          args: Prisma.CursoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCurso>
+        }
+        groupBy: {
+          args: Prisma.CursoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CursoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CursoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CursoCountAggregateOutputType> | number
+        }
+      }
+    }
+    Aula: {
+      payload: Prisma.$AulaPayload<ExtArgs>
+      fields: Prisma.AulaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AulaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AulaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        findFirst: {
+          args: Prisma.AulaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AulaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        findMany: {
+          args: Prisma.AulaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>[]
+        }
+        create: {
+          args: Prisma.AulaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        createMany: {
+          args: Prisma.AulaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AulaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        update: {
+          args: Prisma.AulaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        deleteMany: {
+          args: Prisma.AulaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AulaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AulaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AulaPayload>
+        }
+        aggregate: {
+          args: Prisma.AulaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAula>
+        }
+        groupBy: {
+          args: Prisma.AulaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AulaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AulaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AulaCountAggregateOutputType> | number
+        }
+      }
+    }
+    Compra: {
+      payload: Prisma.$CompraPayload<ExtArgs>
+      fields: Prisma.CompraFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CompraFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CompraFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        findFirst: {
+          args: Prisma.CompraFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CompraFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        findMany: {
+          args: Prisma.CompraFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>[]
+        }
+        create: {
+          args: Prisma.CompraCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        createMany: {
+          args: Prisma.CompraCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.CompraDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        update: {
+          args: Prisma.CompraUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        deleteMany: {
+          args: Prisma.CompraDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CompraUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.CompraUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompraPayload>
+        }
+        aggregate: {
+          args: Prisma.CompraAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCompra>
+        }
+        groupBy: {
+          args: Prisma.CompraGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CompraGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CompraCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CompraCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -534,6 +735,35 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const CursoScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description'
+} as const
+
+export type CursoScalarFieldEnum = (typeof CursoScalarFieldEnum)[keyof typeof CursoScalarFieldEnum]
+
+
+export const AulaScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  videoUrl: 'videoUrl',
+  cursoId: 'cursoId'
+} as const
+
+export type AulaScalarFieldEnum = (typeof AulaScalarFieldEnum)[keyof typeof AulaScalarFieldEnum]
+
+
+export const CompraScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  cursoId: 'cursoId',
+  createdAt: 'createdAt'
+} as const
+
+export type CompraScalarFieldEnum = (typeof CompraScalarFieldEnum)[keyof typeof CompraScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -549,6 +779,22 @@ export const UserOrderByRelevanceFieldEnum = {
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const CursoOrderByRelevanceFieldEnum = {
+  title: 'title',
+  description: 'description'
+} as const
+
+export type CursoOrderByRelevanceFieldEnum = (typeof CursoOrderByRelevanceFieldEnum)[keyof typeof CursoOrderByRelevanceFieldEnum]
+
+
+export const AulaOrderByRelevanceFieldEnum = {
+  title: 'title',
+  videoUrl: 'videoUrl'
+} as const
+
+export type AulaOrderByRelevanceFieldEnum = (typeof AulaOrderByRelevanceFieldEnum)[keyof typeof AulaOrderByRelevanceFieldEnum]
 
 
 
@@ -736,6 +982,9 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  curso?: Prisma.CursoOmit
+  aula?: Prisma.AulaOmit
+  compra?: Prisma.CompraOmit
 }
 
 /* Types for Logging */

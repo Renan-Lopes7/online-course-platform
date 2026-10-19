@@ -51,7 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Curso: 'Curso',
+  Aula: 'Aula',
+  Compra: 'Compra'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +85,35 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const CursoScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description'
+} as const
+
+export type CursoScalarFieldEnum = (typeof CursoScalarFieldEnum)[keyof typeof CursoScalarFieldEnum]
+
+
+export const AulaScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  videoUrl: 'videoUrl',
+  cursoId: 'cursoId'
+} as const
+
+export type AulaScalarFieldEnum = (typeof AulaScalarFieldEnum)[keyof typeof AulaScalarFieldEnum]
+
+
+export const CompraScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  cursoId: 'cursoId',
+  createdAt: 'createdAt'
+} as const
+
+export type CompraScalarFieldEnum = (typeof CompraScalarFieldEnum)[keyof typeof CompraScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -97,4 +129,20 @@ export const UserOrderByRelevanceFieldEnum = {
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const CursoOrderByRelevanceFieldEnum = {
+  title: 'title',
+  description: 'description'
+} as const
+
+export type CursoOrderByRelevanceFieldEnum = (typeof CursoOrderByRelevanceFieldEnum)[keyof typeof CursoOrderByRelevanceFieldEnum]
+
+
+export const AulaOrderByRelevanceFieldEnum = {
+  title: 'title',
+  videoUrl: 'videoUrl'
+} as const
+
+export type AulaOrderByRelevanceFieldEnum = (typeof AulaOrderByRelevanceFieldEnum)[keyof typeof AulaOrderByRelevanceFieldEnum]
 
