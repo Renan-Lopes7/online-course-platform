@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';
+import { PrismaService } from '../database/database.service';
 
 @Injectable()
 export class AulaService {
-  create(createAulaDto: CreateAulaDto) {
-    return 'This action adds a new aula';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  create(cursoId: number, createAulaDto: CreateAulaDto) {
+    return this.prismaService.aula.create({
+      data: {
+        title: createAulaDto.title,
+        videoUrl: createAulaDto.videoUrl,
+        curso: {
+          connect: { id: +cursoId },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all aula`;
+  async findAll(cursoId: number) {
+    return await this.prismaService.aula.findMany({
+      where: { cursoId },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} aula`;
+  async findOne(id: number) {
+    const aula = await this.prismaService.aula.findFirst({ where: { id } });
+    if (!aula) throw new NotFoundException('Aula não encontrada');
+
+    return aula;
   }
 
-  update(id: number, updateAulaDto: UpdateAulaDto) {
-    return `This action updates a #${id} aula`;
+  async update(id: number, updateAulaDto: UpdateAulaDto) {
+    const aula = await this.prismaService.aula.findUnique({ where: { id } });
+    if (!aula) throw new NotFoundException('Aula não encontrada');
+
+    return await this.prismaService.aula.update({
+      where: { id },
+      data: updateAulaDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} aula`;
+  async remove(id: number) {
+    const aula = await this.prismaService.aula.findUnique({ where: { id } });
+    if (!aula) throw new NotFoundException('Aula não encontrada');
+
+    return this.prismaService.aula.delete({
+      where: { id },
+    });
   }
 }
