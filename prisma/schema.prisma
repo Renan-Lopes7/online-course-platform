@@ -9,6 +9,12 @@ datasource db {
 }
 
 
+enum StatusCompra {
+  PENDENTE
+  PAGO
+  CANCELADO
+}
+
 model User {
    id  Int   @id @default(autoincrement())
    name  String
@@ -40,10 +46,13 @@ model Aula {
   curso Curso @relation(fields: [cursoId], references: [id])
 } 
 
+
+
 model Compra {
   id Int @id @default(autoincrement())
   userId Int 
   cursoId Int 
+  status StatusCompra @default(PENDENTE)
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
