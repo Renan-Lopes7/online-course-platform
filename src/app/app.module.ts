@@ -8,6 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CursoModule } from '../curso/curso.module';
 import { AulaModule } from '../aula/aula.module';
+import { CompraModule } from '../compra/compra.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -19,6 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AuthModule,
     CursoModule,
     AulaModule,
+    CompraModule,
   ],
 
   controllers: [AppController],
