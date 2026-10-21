@@ -99,6 +99,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumStatusCompraFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusCompra | Prisma.EnumStatusCompraFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusCompra[]
+  notIn?: $Enums.StatusCompra[]
+  not?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel> | $Enums.StatusCompra
+}
+
+export type EnumStatusCompraWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusCompra | Prisma.EnumStatusCompraFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusCompra[]
+  notIn?: $Enums.StatusCompra[]
+  not?: Prisma.NestedEnumStatusCompraWithAggregatesFilter<$PrismaModel> | $Enums.StatusCompra
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -193,6 +210,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumStatusCompraFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusCompra | Prisma.EnumStatusCompraFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusCompra[]
+  notIn?: $Enums.StatusCompra[]
+  not?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel> | $Enums.StatusCompra
+}
+
+export type NestedEnumStatusCompraWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusCompra | Prisma.EnumStatusCompraFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusCompra[]
+  notIn?: $Enums.StatusCompra[]
+  not?: Prisma.NestedEnumStatusCompraWithAggregatesFilter<$PrismaModel> | $Enums.StatusCompra
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusCompraFilter<$PrismaModel>
 }
 
 

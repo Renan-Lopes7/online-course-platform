@@ -42,6 +42,7 @@ export type CompraMinAggregateOutputType = {
   id: number | null
   userId: number | null
   cursoId: number | null
+  status: $Enums.StatusCompra | null
   createdAt: Date | null
 }
 
@@ -49,6 +50,7 @@ export type CompraMaxAggregateOutputType = {
   id: number | null
   userId: number | null
   cursoId: number | null
+  status: $Enums.StatusCompra | null
   createdAt: Date | null
 }
 
@@ -56,6 +58,7 @@ export type CompraCountAggregateOutputType = {
   id: number
   userId: number
   cursoId: number
+  status: number
   createdAt: number
   _all: number
 }
@@ -77,6 +80,7 @@ export type CompraMinAggregateInputType = {
   id?: true
   userId?: true
   cursoId?: true
+  status?: true
   createdAt?: true
 }
 
@@ -84,6 +88,7 @@ export type CompraMaxAggregateInputType = {
   id?: true
   userId?: true
   cursoId?: true
+  status?: true
   createdAt?: true
 }
 
@@ -91,6 +96,7 @@ export type CompraCountAggregateInputType = {
   id?: true
   userId?: true
   cursoId?: true
+  status?: true
   createdAt?: true
   _all?: true
 }
@@ -185,6 +191,7 @@ export type CompraGroupByOutputType = {
   id: number
   userId: number
   cursoId: number
+  status: $Enums.StatusCompra
   createdAt: Date
   _count: CompraCountAggregateOutputType | null
   _avg: CompraAvgAggregateOutputType | null
@@ -215,6 +222,7 @@ export type CompraWhereInput = {
   id?: Prisma.IntFilter<"Compra"> | number
   userId?: Prisma.IntFilter<"Compra"> | number
   cursoId?: Prisma.IntFilter<"Compra"> | number
+  status?: Prisma.EnumStatusCompraFilter<"Compra"> | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFilter<"Compra"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   curso?: Prisma.XOR<Prisma.CursoScalarRelationFilter, Prisma.CursoWhereInput>
@@ -224,6 +232,7 @@ export type CompraOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   curso?: Prisma.CursoOrderByWithRelationInput
@@ -236,6 +245,7 @@ export type CompraWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CompraWhereInput | Prisma.CompraWhereInput[]
   userId?: Prisma.IntFilter<"Compra"> | number
   cursoId?: Prisma.IntFilter<"Compra"> | number
+  status?: Prisma.EnumStatusCompraFilter<"Compra"> | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFilter<"Compra"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   curso?: Prisma.XOR<Prisma.CursoScalarRelationFilter, Prisma.CursoWhereInput>
@@ -245,6 +255,7 @@ export type CompraOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CompraCountOrderByAggregateInput
   _avg?: Prisma.CompraAvgOrderByAggregateInput
@@ -260,10 +271,12 @@ export type CompraScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Compra"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Compra"> | number
   cursoId?: Prisma.IntWithAggregatesFilter<"Compra"> | number
+  status?: Prisma.EnumStatusCompraWithAggregatesFilter<"Compra"> | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Compra"> | Date | string
 }
 
 export type CompraCreateInput = {
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutComprasInput
   curso: Prisma.CursoCreateNestedOneWithoutComprasInput
@@ -273,10 +286,12 @@ export type CompraUncheckedCreateInput = {
   id?: number
   userId: number
   cursoId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
 export type CompraUpdateInput = {
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutComprasNestedInput
   curso?: Prisma.CursoUpdateOneRequiredWithoutComprasNestedInput
@@ -286,6 +301,7 @@ export type CompraUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -293,10 +309,12 @@ export type CompraCreateManyInput = {
   id?: number
   userId: number
   cursoId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
 export type CompraUpdateManyMutationInput = {
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -304,6 +322,7 @@ export type CompraUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -321,6 +340,7 @@ export type CompraCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -334,6 +354,7 @@ export type CompraMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -341,6 +362,7 @@ export type CompraMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -434,7 +456,12 @@ export type CompraUncheckedUpdateManyWithoutCursoNestedInput = {
   deleteMany?: Prisma.CompraScalarWhereInput | Prisma.CompraScalarWhereInput[]
 }
 
+export type EnumStatusCompraFieldUpdateOperationsInput = {
+  set?: $Enums.StatusCompra
+}
+
 export type CompraCreateWithoutUserInput = {
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
   curso: Prisma.CursoCreateNestedOneWithoutComprasInput
 }
@@ -442,6 +469,7 @@ export type CompraCreateWithoutUserInput = {
 export type CompraUncheckedCreateWithoutUserInput = {
   id?: number
   cursoId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
@@ -478,10 +506,12 @@ export type CompraScalarWhereInput = {
   id?: Prisma.IntFilter<"Compra"> | number
   userId?: Prisma.IntFilter<"Compra"> | number
   cursoId?: Prisma.IntFilter<"Compra"> | number
+  status?: Prisma.EnumStatusCompraFilter<"Compra"> | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFilter<"Compra"> | Date | string
 }
 
 export type CompraCreateWithoutCursoInput = {
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutComprasInput
 }
@@ -489,6 +519,7 @@ export type CompraCreateWithoutCursoInput = {
 export type CompraUncheckedCreateWithoutCursoInput = {
   id?: number
   userId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
@@ -521,10 +552,12 @@ export type CompraUpdateManyWithWhereWithoutCursoInput = {
 export type CompraCreateManyUserInput = {
   id?: number
   cursoId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
 export type CompraUpdateWithoutUserInput = {
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curso?: Prisma.CursoUpdateOneRequiredWithoutComprasNestedInput
 }
@@ -532,22 +565,26 @@ export type CompraUpdateWithoutUserInput = {
 export type CompraUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompraUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompraCreateManyCursoInput = {
   id?: number
   userId: number
+  status?: $Enums.StatusCompra
   createdAt?: Date | string
 }
 
 export type CompraUpdateWithoutCursoInput = {
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutComprasNestedInput
 }
@@ -555,12 +592,14 @@ export type CompraUpdateWithoutCursoInput = {
 export type CompraUncheckedUpdateWithoutCursoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompraUncheckedUpdateManyWithoutCursoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumStatusCompraFieldUpdateOperationsInput | $Enums.StatusCompra
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -570,6 +609,7 @@ export type CompraSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   userId?: boolean
   cursoId?: boolean
+  status?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   curso?: boolean | Prisma.CursoDefaultArgs<ExtArgs>
@@ -581,10 +621,11 @@ export type CompraSelectScalar = {
   id?: boolean
   userId?: boolean
   cursoId?: boolean
+  status?: boolean
   createdAt?: boolean
 }
 
-export type CompraOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "cursoId" | "createdAt", ExtArgs["result"]["compra"]>
+export type CompraOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "cursoId" | "status" | "createdAt", ExtArgs["result"]["compra"]>
 export type CompraInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   curso?: boolean | Prisma.CursoDefaultArgs<ExtArgs>
@@ -600,6 +641,7 @@ export type $CompraPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: number
     userId: number
     cursoId: number
+    status: $Enums.StatusCompra
     createdAt: Date
   }, ExtArgs["result"]["compra"]>
   composites: {}
@@ -975,6 +1017,7 @@ export interface CompraFieldRefs {
   readonly id: Prisma.FieldRef<"Compra", 'Int'>
   readonly userId: Prisma.FieldRef<"Compra", 'Int'>
   readonly cursoId: Prisma.FieldRef<"Compra", 'Int'>
+  readonly status: Prisma.FieldRef<"Compra", 'StatusCompra'>
   readonly createdAt: Prisma.FieldRef<"Compra", 'DateTime'>
 }
     

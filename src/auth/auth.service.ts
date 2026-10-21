@@ -25,7 +25,7 @@ export class AuthService {
       user.password,
     );
     if (!passwordMatch) throw new UnauthorizedException('Credencias inválidas');
-    const paylod = { user: user.id };
+    const paylod = { sub: user.id };
 
     return { access_token: await this.jwtService.signAsync(paylod) };
   }

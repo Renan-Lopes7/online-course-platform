@@ -758,6 +758,7 @@ export const CompraScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   cursoId: 'cursoId',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
@@ -821,6 +822,13 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'StatusCompra'
+ */
+export type EnumStatusCompraFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusCompra'>
     
 
 

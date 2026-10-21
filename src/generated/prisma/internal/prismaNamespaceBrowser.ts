@@ -108,6 +108,7 @@ export const CompraScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   cursoId: 'cursoId',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
