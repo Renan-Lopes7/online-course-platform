@@ -14,7 +14,11 @@ import { AulaService } from './aula.service';
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { Request } from 'supertest';
 
+interface AuthenticateRequest extends Request {
+  user: { sub: number };
+}
 @Controller()
 @UseGuards(AuthGuard)
 export class AulaController {
@@ -29,13 +33,19 @@ export class AulaController {
   }
 
   @Get('cursos/:cursoId/aulas')
-  findAll(@Param('cursoId', ParseIntPipe) cursoId: number) {
-    return this.aulaService.findAll(cursoId);
+  findAll(
+    @Req() req: AuthenticateRequest,
+    @Param('cursoId', ParseIntPipe) cursoId: number,
+  ) {
+    return this.aulaService.findAll(cursoId, req.user.sub);
   }
 
   @Get('aulas/:id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.aulaService.findOne(id);
+  findOne(
+    @Req() req: AuthenticateRequest,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.aulaService.findOne(id, req.user.sub);
   }
 
   @Patch('aulas/:id')

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';
 import { PrismaService } from '../database/database.service';
@@ -19,15 +23,40 @@ export class AulaService {
     });
   }
 
-  async findAll(cursoId: number) {
-    return await this.prismaService.aula.findMany({
+  async findAll(cursoId: number, userId: number) {
+    const aulas = await this.prismaService.aula.findMany({
       where: { cursoId },
     });
+    if (aulas.length === 0)
+      throw new NotFoundException('Essas aulas não existem para esse curso');
+
+    const compra = await this.prismaService.compra.findFirst({
+      where: {
+        userId,
+        cursoId,
+        status: 'PAGO',
+      },
+    });
+    if (!compra)
+      throw new ForbiddenException('Você não tem acesso a este curso');
+
+    return aulas;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, userId: number) {
     const aula = await this.prismaService.aula.findFirst({ where: { id } });
     if (!aula) throw new NotFoundException('Aula não encontrada');
+
+    const compra = await this.prismaService.compra.findFirst({
+      where: {
+        userId,
+        cursoId: aula.cursoId,
+        status: 'PAGO',
+      },
+    });
+    if (!compra) {
+      throw new ForbiddenException("'Você não tem acesso a este curso");
+    }
 
     return aula;
   }
