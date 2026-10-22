@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database/database.service';
 
 @Injectable()
 export class CompraService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(userId: number, cursoId: number) {
+  async create(userId: number, cursoId: number) {
+    const curso = await this.prismaService.curso.findUnique({
+      where: { id: cursoId },
+    });
+    if (!curso) throw new NotFoundException('Este curso não existe');
+
     return this.prismaService.compra.create({
       data: {
         userId,
