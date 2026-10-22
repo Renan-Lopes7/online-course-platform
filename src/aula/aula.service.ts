@@ -17,7 +17,7 @@ export class AulaService {
         title: createAulaDto.title,
         videoUrl: createAulaDto.videoUrl,
         curso: {
-          connect: { id: +cursoId },
+          connect: { id: cursoId },
         },
       },
     });
