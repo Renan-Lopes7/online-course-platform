@@ -14,7 +14,8 @@ import { AulaService } from './aula.service';
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { Request } from 'supertest';
+import { Request } from 'express';
+import { AdminGuard } from '../auth/admin.guard';
 
 interface AuthenticateRequest extends Request {
   user: { sub: number };
@@ -25,6 +26,7 @@ export class AulaController {
   constructor(private readonly aulaService: AulaService) {}
 
   @Post('cursos/:cursoId/aulas')
+  @UseGuards(AdminGuard)
   create(
     @Param('cursoId', ParseIntPipe) cursoId: number,
     @Body() createAulaDto: CreateAulaDto,
@@ -49,6 +51,7 @@ export class AulaController {
   }
 
   @Patch('aulas/:id')
+  @UseGuards(AdminGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAulaDto: UpdateAulaDto,
@@ -57,6 +60,7 @@ export class AulaController {
   }
 
   @Delete('aulas/:id')
+  @UseGuards(AdminGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.aulaService.remove(id);
   }

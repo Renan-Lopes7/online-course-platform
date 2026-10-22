@@ -13,13 +13,14 @@ import { CursoService } from './curso.service';
 import { CreateCursoDto } from './dto/create-curso.dto';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { AdminGuard } from '../auth/admin.guard';
 
 @Controller('curso')
 export class CursoController {
   constructor(private readonly cursoService: CursoService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AdminGuard)
   create(@Body() createCursoDto: CreateCursoDto) {
     return this.cursoService.create(createCursoDto);
   }
@@ -30,13 +31,12 @@ export class CursoController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.cursoService.findOne(id);
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AdminGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCursoDto: UpdateCursoDto,
@@ -45,7 +45,7 @@ export class CursoController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AdminGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.cursoService.remove(id);
   }
