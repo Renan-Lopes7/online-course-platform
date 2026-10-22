@@ -33,6 +33,7 @@ model User {
 model Curso {
   id Int @id @default(autoincrement())
   title String 
+  price Decimal @db.Decimal(10, 2)
   description String
 
   aula Aula[]
@@ -47,7 +48,7 @@ model Aula {
   videoUrl String
  
   cursoId Int
-  curso Curso @relation(fields: [cursoId], references: [id])
+  curso Curso @relation(fields: [cursoId], references: [id], onDelete: Cascade)
 } 
 
 
@@ -57,7 +58,10 @@ model Compra {
   userId Int 
   cursoId Int 
   status StatusCompra @default(PENDENTE)
+  pagamentoId String? @unique
   createdAt DateTime @default(now())
+  pagoEm DateTime?
+  expiraEm DateTime?
 
   user User @relation(fields: [userId], references: [id])
   curso Curso @relation(fields: [cursoId], references: [id])
