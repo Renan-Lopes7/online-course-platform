@@ -762,6 +762,7 @@ export const CompraScalarFieldEnum = {
   userId: 'userId',
   cursoId: 'cursoId',
   status: 'status',
+  valor: 'valor',
   pagamentoId: 'pagamentoId',
   createdAt: 'createdAt',
   pagoEm: 'pagoEm',

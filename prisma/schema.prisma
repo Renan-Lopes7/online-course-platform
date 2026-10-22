@@ -59,6 +59,7 @@ model Compra {
   userId Int 
   cursoId Int 
   status StatusCompra @default(PENDENTE)
+  valor Decimal @db.Decimal(10, 2)
   pagamentoId String? @unique
   createdAt DateTime @default(now())
   pagoEm DateTime?
