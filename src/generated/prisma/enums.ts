@@ -16,3 +16,11 @@ export const StatusCompra = {
 } as const
 
 export type StatusCompra = (typeof StatusCompra)[keyof typeof StatusCompra]
+
+
+export const UserRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
