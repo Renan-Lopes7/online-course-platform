@@ -89,6 +89,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const CursoScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  price: 'price',
   description: 'description'
 } as const
 
@@ -110,7 +111,10 @@ export const CompraScalarFieldEnum = {
   userId: 'userId',
   cursoId: 'cursoId',
   status: 'status',
-  createdAt: 'createdAt'
+  pagamentoId: 'pagamentoId',
+  createdAt: 'createdAt',
+  pagoEm: 'pagoEm',
+  expiraEm: 'expiraEm'
 } as const
 
 export type CompraScalarFieldEnum = (typeof CompraScalarFieldEnum)[keyof typeof CompraScalarFieldEnum]
@@ -147,4 +151,19 @@ export const AulaOrderByRelevanceFieldEnum = {
 } as const
 
 export type AulaOrderByRelevanceFieldEnum = (typeof AulaOrderByRelevanceFieldEnum)[keyof typeof AulaOrderByRelevanceFieldEnum]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const CompraOrderByRelevanceFieldEnum = {
+  pagamentoId: 'pagamentoId'
+} as const
+
+export type CompraOrderByRelevanceFieldEnum = (typeof CompraOrderByRelevanceFieldEnum)[keyof typeof CompraOrderByRelevanceFieldEnum]
 

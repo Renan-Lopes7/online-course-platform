@@ -28,27 +28,32 @@ export type AggregateCurso = {
 
 export type CursoAvgAggregateOutputType = {
   id: number | null
+  price: runtime.Decimal | null
 }
 
 export type CursoSumAggregateOutputType = {
   id: number | null
+  price: runtime.Decimal | null
 }
 
 export type CursoMinAggregateOutputType = {
   id: number | null
   title: string | null
+  price: runtime.Decimal | null
   description: string | null
 }
 
 export type CursoMaxAggregateOutputType = {
   id: number | null
   title: string | null
+  price: runtime.Decimal | null
   description: string | null
 }
 
 export type CursoCountAggregateOutputType = {
   id: number
   title: number
+  price: number
   description: number
   _all: number
 }
@@ -56,27 +61,32 @@ export type CursoCountAggregateOutputType = {
 
 export type CursoAvgAggregateInputType = {
   id?: true
+  price?: true
 }
 
 export type CursoSumAggregateInputType = {
   id?: true
+  price?: true
 }
 
 export type CursoMinAggregateInputType = {
   id?: true
   title?: true
+  price?: true
   description?: true
 }
 
 export type CursoMaxAggregateInputType = {
   id?: true
   title?: true
+  price?: true
   description?: true
 }
 
 export type CursoCountAggregateInputType = {
   id?: true
   title?: true
+  price?: true
   description?: true
   _all?: true
 }
@@ -170,6 +180,7 @@ export type CursoGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type CursoGroupByOutputType = {
   id: number
   title: string
+  price: runtime.Decimal
   description: string
   _count: CursoCountAggregateOutputType | null
   _avg: CursoAvgAggregateOutputType | null
@@ -199,6 +210,7 @@ export type CursoWhereInput = {
   NOT?: Prisma.CursoWhereInput | Prisma.CursoWhereInput[]
   id?: Prisma.IntFilter<"Curso"> | number
   title?: Prisma.StringFilter<"Curso"> | string
+  price?: Prisma.DecimalFilter<"Curso"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFilter<"Curso"> | string
   aula?: Prisma.AulaListRelationFilter
   compras?: Prisma.CompraListRelationFilter
@@ -207,6 +219,7 @@ export type CursoWhereInput = {
 export type CursoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   description?: Prisma.SortOrder
   aula?: Prisma.AulaOrderByRelationAggregateInput
   compras?: Prisma.CompraOrderByRelationAggregateInput
@@ -219,6 +232,7 @@ export type CursoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CursoWhereInput[]
   NOT?: Prisma.CursoWhereInput | Prisma.CursoWhereInput[]
   title?: Prisma.StringFilter<"Curso"> | string
+  price?: Prisma.DecimalFilter<"Curso"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFilter<"Curso"> | string
   aula?: Prisma.AulaListRelationFilter
   compras?: Prisma.CompraListRelationFilter
@@ -227,6 +241,7 @@ export type CursoWhereUniqueInput = Prisma.AtLeast<{
 export type CursoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   description?: Prisma.SortOrder
   _count?: Prisma.CursoCountOrderByAggregateInput
   _avg?: Prisma.CursoAvgOrderByAggregateInput
@@ -241,11 +256,13 @@ export type CursoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CursoScalarWhereWithAggregatesInput | Prisma.CursoScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Curso"> | number
   title?: Prisma.StringWithAggregatesFilter<"Curso"> | string
+  price?: Prisma.DecimalWithAggregatesFilter<"Curso"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringWithAggregatesFilter<"Curso"> | string
 }
 
 export type CursoCreateInput = {
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   aula?: Prisma.AulaCreateNestedManyWithoutCursoInput
   compras?: Prisma.CompraCreateNestedManyWithoutCursoInput
@@ -254,6 +271,7 @@ export type CursoCreateInput = {
 export type CursoUncheckedCreateInput = {
   id?: number
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   aula?: Prisma.AulaUncheckedCreateNestedManyWithoutCursoInput
   compras?: Prisma.CompraUncheckedCreateNestedManyWithoutCursoInput
@@ -261,6 +279,7 @@ export type CursoUncheckedCreateInput = {
 
 export type CursoUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   aula?: Prisma.AulaUpdateManyWithoutCursoNestedInput
   compras?: Prisma.CompraUpdateManyWithoutCursoNestedInput
@@ -269,6 +288,7 @@ export type CursoUpdateInput = {
 export type CursoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   aula?: Prisma.AulaUncheckedUpdateManyWithoutCursoNestedInput
   compras?: Prisma.CompraUncheckedUpdateManyWithoutCursoNestedInput
@@ -277,17 +297,20 @@ export type CursoUncheckedUpdateInput = {
 export type CursoCreateManyInput = {
   id?: number
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
 }
 
 export type CursoUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CursoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -300,32 +323,45 @@ export type CursoOrderByRelevanceInput = {
 export type CursoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   description?: Prisma.SortOrder
 }
 
 export type CursoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type CursoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   description?: Prisma.SortOrder
 }
 
 export type CursoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   description?: Prisma.SortOrder
 }
 
 export type CursoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type CursoScalarRelationFilter = {
   is?: Prisma.CursoWhereInput
   isNot?: Prisma.CursoWhereInput
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type CursoCreateNestedOneWithoutAulaInput = {
@@ -358,6 +394,7 @@ export type CursoUpdateOneRequiredWithoutComprasNestedInput = {
 
 export type CursoCreateWithoutAulaInput = {
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   compras?: Prisma.CompraCreateNestedManyWithoutCursoInput
 }
@@ -365,6 +402,7 @@ export type CursoCreateWithoutAulaInput = {
 export type CursoUncheckedCreateWithoutAulaInput = {
   id?: number
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   compras?: Prisma.CompraUncheckedCreateNestedManyWithoutCursoInput
 }
@@ -387,6 +425,7 @@ export type CursoUpdateToOneWithWhereWithoutAulaInput = {
 
 export type CursoUpdateWithoutAulaInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   compras?: Prisma.CompraUpdateManyWithoutCursoNestedInput
 }
@@ -394,12 +433,14 @@ export type CursoUpdateWithoutAulaInput = {
 export type CursoUncheckedUpdateWithoutAulaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   compras?: Prisma.CompraUncheckedUpdateManyWithoutCursoNestedInput
 }
 
 export type CursoCreateWithoutComprasInput = {
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   aula?: Prisma.AulaCreateNestedManyWithoutCursoInput
 }
@@ -407,6 +448,7 @@ export type CursoCreateWithoutComprasInput = {
 export type CursoUncheckedCreateWithoutComprasInput = {
   id?: number
   title: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
   aula?: Prisma.AulaUncheckedCreateNestedManyWithoutCursoInput
 }
@@ -429,6 +471,7 @@ export type CursoUpdateToOneWithWhereWithoutComprasInput = {
 
 export type CursoUpdateWithoutComprasInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   aula?: Prisma.AulaUpdateManyWithoutCursoNestedInput
 }
@@ -436,6 +479,7 @@ export type CursoUpdateWithoutComprasInput = {
 export type CursoUncheckedUpdateWithoutComprasInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   aula?: Prisma.AulaUncheckedUpdateManyWithoutCursoNestedInput
 }
@@ -483,6 +527,7 @@ export type CursoCountOutputTypeCountComprasArgs<ExtArgs extends runtime.Types.E
 export type CursoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  price?: boolean
   description?: boolean
   aula?: boolean | Prisma.Curso$aulaArgs<ExtArgs>
   compras?: boolean | Prisma.Curso$comprasArgs<ExtArgs>
@@ -494,10 +539,11 @@ export type CursoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type CursoSelectScalar = {
   id?: boolean
   title?: boolean
+  price?: boolean
   description?: boolean
 }
 
-export type CursoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description", ExtArgs["result"]["curso"]>
+export type CursoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "price" | "description", ExtArgs["result"]["curso"]>
 export type CursoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aula?: boolean | Prisma.Curso$aulaArgs<ExtArgs>
   compras?: boolean | Prisma.Curso$comprasArgs<ExtArgs>
@@ -513,6 +559,7 @@ export type $CursoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
+    price: runtime.Decimal
     description: string
   }, ExtArgs["result"]["curso"]>
   composites: {}
@@ -887,6 +934,7 @@ export interface Prisma__CursoClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface CursoFieldRefs {
   readonly id: Prisma.FieldRef<"Curso", 'Int'>
   readonly title: Prisma.FieldRef<"Curso", 'String'>
+  readonly price: Prisma.FieldRef<"Curso", 'Decimal'>
   readonly description: Prisma.FieldRef<"Curso", 'String'>
 }
     
