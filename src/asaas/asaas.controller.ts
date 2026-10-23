@@ -21,6 +21,13 @@ import { ConfigService } from '@nestjs/config';
 interface AutheticateRequest {
   user: { sub: number };
 }
+
+interface AsaasWebHookBody {
+  event?: string;
+  payment?: {
+    id?: string;
+  };
+}
 @Controller('asaas')
 export class AsaasController {
   constructor(
@@ -54,7 +61,7 @@ export class AsaasController {
   @Post('webhook')
   async receberWebhook(
     @Headers('asaas-access-token') token: string,
-    @Body() body: any,
+    @Body() body: AsaasWebHookBody,
   ) {
     const tokenEsperado = this.configService.get<string>('ASAAS_WEBHOOK_TOKEN');
 
@@ -62,15 +69,19 @@ export class AsaasController {
       throw new UnauthorizedException('Token do webhook inválido');
     }
 
-    const pagamentoId = body.payment?.id;
+    if (!body || typeof body.event !== 'string' || !body.event.trim()) {
+      throw new BadRequestException('Evento do webhook inválido');
+    }
 
-    if (!pagamentoId)
-      throw new BadRequestException('ID do pagamento náo informado');
+    if (
+      !body.payment ||
+      typeof body.payment.id !== 'string' ||
+      !body.payment.id.trim()
+    ) {
+      throw new BadRequestException('ID do pagamento inválido');
+    }
 
-    const compra =
-      await this.asassService.buscarCompraPorPagamento(pagamentoId);
-
-    if (!compra) throw new NotFoundException('Compra não encontrada');
+    const pagamentoId = body.payment.id;
 
     if (body.event !== 'PAYMENT_RECEIVED') {
       return {
@@ -78,6 +89,13 @@ export class AsaasController {
         ignorado: true,
         evento: body.event,
       };
+    }
+
+    const compra =
+      await this.asassService.buscarCompraPorPagamento(pagamentoId);
+
+    if (!compra) {
+      throw new NotFoundException('Compra não encontrada');
     }
 
     const statusAsaas =
