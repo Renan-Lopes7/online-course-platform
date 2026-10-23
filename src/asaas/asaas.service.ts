@@ -221,4 +221,67 @@ export class AsaasService {
       expirationDate: qrCode.expirationDate,
     };
   }
+
+  async buscarCompraPorPagamento(pagamentoId: string) {
+    return this.prismaService.compra.findUnique({
+      where: { pagamentoId },
+    });
+  }
+
+  async consultarStatusPagamento(pagamentoId: string) {
+    const apiKey = this.configService.get<string>('ASAAS_API_KEY');
+    const baseUrl = this.configService.get<string>('ASAAS_BASE_URL');
+
+    if (!apiKey || !baseUrl) {
+      throw new InternalServerErrorException(
+        'Configurações do Asaas não encontradas',
+      );
+    }
+
+    const response = await fetch(`${baseUrl}/payments/${pagamentoId}/status`, {
+      method: 'GET',
+      headers: {
+        access_token: apiKey,
+        'User-Agent': 'plataform-cursos',
+      },
+    });
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `Erro ao consultar pagamento no Asaas ${response.status}`,
+      );
+    }
+    const resultado = (await response.json()) as {
+      status: string;
+    };
+
+    return resultado.status;
+  }
+
+  async confirmarPagamento(compraId: number) {
+    const compra = await this.prismaService.compra.findUnique({
+      where: { id: compraId },
+    });
+
+    if (!compra) {
+      throw new NotFoundException('Compra não encontrada');
+    }
+
+    if (compra.status === 'PAGO') {
+      return compra;
+    }
+
+    if (compra.status !== 'PENDENTE') {
+      throw new ConflictException(
+        'A compra não esta pendente e não pode ser paga',
+      );
+    }
+
+    return this.prismaService.compra.update({
+      where: { id: compraId },
+      data: {
+        status: 'PAGO',
+        pagoEm: new Date(),
+      },
+    });
+  }
 }
