@@ -14,6 +14,7 @@ import { CreateCursoDto } from './dto/create-curso.dto';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('curso')
 export class CursoController {
@@ -21,6 +22,7 @@ export class CursoController {
 
   @Post()
   @UseGuards(AuthGuard, AdminGuard)
+  @ApiBearerAuth()
   create(@Body() createCursoDto: CreateCursoDto) {
     return this.cursoService.create(createCursoDto);
   }
@@ -37,6 +39,7 @@ export class CursoController {
 
   @Patch(':id')
   @UseGuards(AuthGuard, AdminGuard)
+  @ApiBearerAuth()
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCursoDto: UpdateCursoDto,
@@ -46,6 +49,7 @@ export class CursoController {
 
   @Delete(':id')
   @UseGuards(AuthGuard, AdminGuard)
+  @ApiBearerAuth()
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.cursoService.remove(id);
   }
