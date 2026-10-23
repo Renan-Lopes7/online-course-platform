@@ -11,6 +11,7 @@ import {
 import { CompraService } from './compra.service';
 import type { Request } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 interface AuthenticateRequest extends Request {
   user: { sub: number };
@@ -18,6 +19,7 @@ interface AuthenticateRequest extends Request {
 
 @Controller('compra')
 @UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompraController {
   constructor(private readonly compraService: CompraService) {}
 
