@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../database/database.service';
+import { StatusCompra } from '../generated/prisma/enums';
 
 @Injectable()
 export class AsaasService {
@@ -276,12 +277,30 @@ export class AsaasService {
       );
     }
 
-    return this.prismaService.compra.update({
-      where: { id: compraId },
+    const resultado = await this.prismaService.compra.updateMany({
+      where: { id: compraId, status: StatusCompra.PENDENTE },
       data: {
-        status: 'PAGO',
+        status: StatusCompra.PAGO,
         pagoEm: new Date(),
       },
+    });
+
+    if (resultado.count === 0) {
+      const compraAtualizada = await this.prismaService.compra.findUnique({
+        where: { id: compraId },
+      });
+
+      if (compraAtualizada?.status === 'PAGO') {
+        return compraAtualizada;
+      }
+
+      throw new ConflictException(
+        'A compra não está pendente e não pode ser paga',
+      );
+    }
+
+    return this.prismaService.compra.findFirstOrThrow({
+      where: { id: compraId },
     });
   }
 }
