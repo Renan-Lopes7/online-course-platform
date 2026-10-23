@@ -24,12 +24,6 @@ export class AulaService {
   }
 
   async findAll(cursoId: number, userId: number) {
-    const aulas = await this.prismaService.aula.findMany({
-      where: { cursoId },
-    });
-    if (aulas.length === 0)
-      throw new NotFoundException('Essas aulas não existem para esse curso');
-
     const compra = await this.prismaService.compra.findFirst({
       where: {
         userId,
@@ -37,8 +31,18 @@ export class AulaService {
         status: 'PAGO',
       },
     });
-    if (!compra)
+
+    if (!compra) {
       throw new ForbiddenException('Você não tem acesso a este curso');
+    }
+
+    const aulas = await this.prismaService.aula.findMany({
+      where: { cursoId },
+    });
+
+    if (aulas.length === 0) {
+      throw new NotFoundException('Essas aulas não existem para esse curso');
+    }
 
     return aulas;
   }
