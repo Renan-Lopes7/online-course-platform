@@ -1,4 +1,4 @@
-import { IsString, Validate } from 'class-validator';
+import { IsNotEmpty, IsString, Validate } from 'class-validator';
 import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -17,7 +17,8 @@ class IsCpfConstraint implements ValidatorConstraintInterface {
 }
 
 export class CreatePixDto {
-  @IsString()
-  @Validate(IsCpfConstraint)
+  @IsString({ message: 'O CPF deve ser enviado como texto.' })
+  @IsNotEmpty({ message: 'O CPF é obrigatório.' })
+  @Validate(IsCpfConstraint, { message: 'O CPF informado é inválido.' })
   cpfCnpj: string;
 }
