@@ -32,4 +32,12 @@ export class AsaasController {
       dto.cpfCnpj,
     );
   }
+
+  @Get('compra/:compraId/pix/qrcode')
+  obterQrCodePix(
+    @Param('compraId', ParseIntPipe) compraId: number,
+    @Req() req: AutheticateRequest,
+  ) {
+    return this.asassService.criaQrCodePix(compraId, req.user.sub);
+  }
 }

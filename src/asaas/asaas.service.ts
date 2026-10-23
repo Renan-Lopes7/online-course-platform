@@ -35,7 +35,7 @@ export class AsaasService {
     const headers = {
       access_token: apiKey,
       'Content-Type': 'application/json',
-      'User-Agent': 'plataforma-cursos',
+      'User-Agent': 'plataform-cursos',
     };
 
     if (usuario.asaasCustomerId) {
@@ -137,7 +137,7 @@ export class AsaasService {
       headers: {
         access_token: apiKey,
         'Content-Type': 'application/json',
-        'User-Agent': 'plataforma-cursos',
+        'User-Agent': 'plataform-cursos',
       },
       body: JSON.stringify({
         customer: customerId,
@@ -166,6 +166,59 @@ export class AsaasService {
       compraId: compra.id,
       pagamentoId: cobranca.id,
       status: compra.status,
+    };
+  }
+
+  async criaQrCodePix(compraId: number, userId: number) {
+    const compra = await this.prismaService.compra.findFirst({
+      where: { id: compraId, userId },
+    });
+
+    if (!compra) {
+      throw new NotFoundException('Compra não encontrada');
+    }
+
+    if (!compra.pagamentoId) {
+      throw new ConflictException('Esta compra não possui uma cobrança Pix');
+    }
+
+    const apiKey = this.configService.get<string>('ASAAS_API_KEY');
+    const baseUrl = this.configService.get<string>('ASAAS_BASE_URL');
+
+    if (!apiKey || !baseUrl) {
+      throw new InternalServerErrorException(
+        'Configurações do Asaas não encontradas',
+      );
+    }
+
+    const response = await fetch(
+      `${baseUrl}/payments/${compra.pagamentoId}/pixQrCode`,
+      {
+        method: 'GET',
+        headers: {
+          access_token: apiKey,
+          'User-Agent': 'plataform-cursos',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `Erro ao consultar QR Code Pix: HTTP ${response.status}`,
+      );
+    }
+    const qrCode = (await response.json()) as {
+      encodedImage: string;
+      payload: string;
+      expirationDate: string | null;
+    };
+
+    return {
+      compraId: compra.id,
+      pagamentoId: compra.pagamentoId,
+      encodedImage: qrCode.encodedImage,
+      payload: qrCode.payload,
+      expirationDate: qrCode.expirationDate,
     };
   }
 }
