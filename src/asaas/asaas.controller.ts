@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AsaasService } from './asaas.service';
 import { AuthGuard } from '../auth/auth.guard';
+import { CreatePixDto } from './dto/create-pix.dto';
 
 interface AutheticateRequest {
   user: { sub: number };
@@ -18,16 +20,16 @@ interface AutheticateRequest {
 export class AsaasController {
   constructor(private readonly asassService: AsaasService) {}
 
-  @Get(':id')
-  testarConexao(@Param('id', ParseIntPipe) userId: number) {
-    return this.asassService.garantirClienteAsaas(userId);
-  }
-
   @Post('compra/:compraId/pix')
   criarCobranca(
     @Param('compraId', ParseIntPipe) compraId: number,
+    @Body() dto: CreatePixDto,
     @Req() req: AutheticateRequest,
   ) {
-    return this.asassService.criarCobrancaPix(compraId, req.user.sub);
+    return this.asassService.criarCobrancaPix(
+      compraId,
+      req.user.sub,
+      dto.cpfCnpj,
+    );
   }
 }

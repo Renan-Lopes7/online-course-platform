@@ -14,17 +14,13 @@ export class AsaasService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async garantirClienteAsaas(userId: number) {
+  async garantirClienteAsaas(userId: number, cpfCnpj: string) {
     const usuario = await this.prismaService.user.findUnique({
       where: { id: userId },
     });
 
     if (!usuario) {
       throw new NotFoundException('Usuário não encontrado');
-    }
-
-    if (usuario.asaasCustomerId) {
-      return { customerId: usuario.asaasCustomerId };
     }
 
     const apiKey = this.configService.get<string>('ASAAS_API_KEY');
@@ -36,26 +32,48 @@ export class AsaasService {
       );
     }
 
+    const headers = {
+      access_token: apiKey,
+      'Content-Type': 'application/json',
+      'User-Agent': 'plataforma-cursos',
+    };
+
+    if (usuario.asaasCustomerId) {
+      const response = await fetch(
+        `${baseUrl}/customers/${usuario.asaasCustomerId}`,
+        {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify({ cpfCnpj }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new InternalServerErrorException(
+          `Erro ao atualizar cliente no Asaas: HTTP ${response.status}`,
+        );
+      }
+
+      return { customerId: usuario.asaasCustomerId };
+    }
+
     const response = await fetch(`${baseUrl}/customers`, {
       method: 'POST',
-      headers: {
-        access_token: apiKey,
-        'Content-Type': 'application/json',
-        'User-Agent': 'plataforma-cursos',
-      },
+      headers,
       body: JSON.stringify({
         name: usuario.name,
         email: usuario.email,
+        cpfCnpj,
       }),
     });
 
     if (!response.ok) {
       throw new InternalServerErrorException(
-        `Erro na comunicação com o Asaas: HTTP ${response.status}`,
+        `Erro ao cadastrar cliente no Asaas: HTTP ${response.status}`,
       );
     }
 
-    const clienteAsaas = await response.json();
+    const clienteAsaas = (await response.json()) as { id: string };
 
     const usuarioAtualizado = await this.prismaService.user.update({
       where: { id: userId },
@@ -67,7 +85,7 @@ export class AsaasService {
     };
   }
 
-  async criarCobrancaPix(compraId: number, userId: number) {
+  async criarCobrancaPix(compraId: number, userId: number, cpfCnpj: string) {
     const compra = await this.prismaService.compra.findFirst({
       where: {
         id: compraId,
@@ -94,7 +112,7 @@ export class AsaasService {
       );
     }
 
-    const { customerId } = await this.garantirClienteAsaas(userId);
+    const { customerId } = await this.garantirClienteAsaas(userId, cpfCnpj);
 
     const apiKey = this.configService.get<string>('ASAAS_API_KEY');
     const baseUrl = this.configService.get<string>('ASAAS_BASE_URL');
@@ -132,10 +150,6 @@ export class AsaasService {
     });
 
     if (!response.ok) {
-      const erroAsaas = await response.text();
-
-      console.log('Erro ao criar pelo Asaas', erroAsaas);
-
       throw new InternalServerErrorException(
         `Erro ao criar cobrança no Asaas: HTTP ${response.status}`,
       );
@@ -144,12 +158,8 @@ export class AsaasService {
     const cobranca = (await response.json()) as { id: string };
 
     await this.prismaService.compra.update({
-      where: {
-        id: compra.id,
-      },
-      data: {
-        pagamentoId: cobranca.id,
-      },
+      where: { id: compra.id },
+      data: { pagamentoId: cobranca.id },
     });
 
     return {
