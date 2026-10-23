@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Request } from 'express';
 
 interface AuthenticateRequest extends Request {
@@ -29,6 +30,7 @@ export class UserController {
 
   @Patch(':id')
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -38,6 +40,8 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   remove(
     @Param('id', ParseIntPipe) id: number,
     @Req() req: AuthenticateRequest,
