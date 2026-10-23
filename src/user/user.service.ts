@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -33,31 +34,12 @@ export class UserService {
     };
   }
 
-  async findAll() {
-    return await this.prismaService.user.findMany({
-      omit: {
-        password: true,
-      },
-    });
-  }
+  async update(id: number, updateUserDto: UpdateUserDto, userId: number) {
+    if (id !== userId)
+      throw new ForbiddenException(
+        'Você não pode atualizar os dados de outro usuário',
+      );
 
-  async findOne(id: number) {
-    const findUser = await this.prismaService.user.findFirst({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    if (!findUser) throw new NotFoundException('Usuário não encontrado.');
-
-    return findUser;
-  }
-
-  async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.prismaService.user.findFirst({
       where: { id },
     });
@@ -79,6 +61,16 @@ export class UserService {
         throw new UnauthorizedException('Senha atual incorreta');
     }
 
+    if (email) {
+      const emailExist = await this.prismaService.user.findUnique({
+        where: { email },
+      });
+
+      if (emailExist && emailExist.id !== id) {
+        throw new BadRequestException('Este e-mail já está cadastrado.');
+      }
+    }
+
     await this.prismaService.user.update({
       where: { id: id },
       data: {
@@ -93,7 +85,11 @@ export class UserService {
     };
   }
 
-  async remove(id: number) {
+  async remove(id: number, userId: number) {
+    if (id !== userId)
+      throw new ForbiddenException(
+        'Você não pode excluir a conta de outro usuário.',
+      );
     const findUser = await this.prismaService.user.findFirst({ where: { id } });
     if (!findUser) throw new NotFoundException('Usuário não encontrado.');
     await this.prismaService.user.delete({ where: { id } });
