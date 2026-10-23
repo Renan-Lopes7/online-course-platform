@@ -16,12 +16,14 @@ import { UpdateAulaDto } from './dto/update-aula.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
 import { AdminGuard } from '../auth/admin.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 interface AuthenticateRequest extends Request {
   user: { sub: number };
 }
 @Controller()
 @UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class AulaController {
   constructor(private readonly aulaService: AulaService) {}
 
