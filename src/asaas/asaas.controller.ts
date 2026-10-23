@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import {
   BadRequestException,
   Body,
@@ -17,6 +16,7 @@ import { AsaasService } from './asaas.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { CreatePixDto } from './dto/create-pix.dto';
 import { ConfigService } from '@nestjs/config';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 interface AutheticateRequest {
   user: { sub: number };
@@ -37,6 +37,7 @@ export class AsaasController {
 
   @Post('compra/:compraId/pix')
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   criarCobranca(
     @Param('compraId', ParseIntPipe) compraId: number,
     @Body() dto: CreatePixDto,
@@ -51,6 +52,7 @@ export class AsaasController {
 
   @Get('compra/:compraId/pix/qrcode')
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   obterQrCodePix(
     @Param('compraId', ParseIntPipe) compraId: number,
     @Req() req: AutheticateRequest,
