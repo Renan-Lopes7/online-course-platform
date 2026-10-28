@@ -52,6 +52,18 @@ export class AulaController {
     return this.aulaService.findOne(id, req.user.sub);
   }
 
+  @Get('cursos/:cursoId/admin/aulas')
+  @UseGuards(AdminGuard)
+  adminFindAll(@Param('cursoId', ParseIntPipe) cursoId: number) {
+    return this.aulaService.findAllAdmin(cursoId);
+  }
+
+  @Get('aulas/:id/admin/aula')
+  @UseGuards(AdminGuard)
+  adminFindOne(@Param('id', ParseIntPipe) id: number) {
+    return this.aulaService.findOneAdmin(id);
+  }
+
   @Patch('aulas/:id')
   @UseGuards(AdminGuard)
   update(

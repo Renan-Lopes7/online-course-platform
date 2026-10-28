@@ -65,6 +65,26 @@ export class AulaService {
     return aula;
   }
 
+  async findAllAdmin(cursoId: number) {
+    const curso = await this.prismaService.curso.findUnique({
+      where: { id: cursoId },
+    });
+
+    if (!curso) throw new NotFoundException('Este curso não existe');
+
+    return this.prismaService.aula.findMany({
+      where: { cursoId },
+    });
+  }
+
+  async findOneAdmin(id: number) {
+    const aula = await this.prismaService.aula.findUnique({
+      where: { id },
+    });
+    if (!aula) throw new NotFoundException('Esta aula não existe');
+    return aula;
+  }
+
   async update(id: number, updateAulaDto: UpdateAulaDto) {
     const aula = await this.prismaService.aula.findUnique({ where: { id } });
     if (!aula) throw new NotFoundException('Aula não encontrada');
