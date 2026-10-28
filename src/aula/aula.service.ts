@@ -15,7 +15,7 @@ export class AulaService {
     return this.prismaService.aula.create({
       data: {
         title: createAulaDto.title,
-        videoUrl: createAulaDto.videoUrl,
+        videoId: createAulaDto.videoId,
         curso: {
           connect: { id: cursoId },
         },

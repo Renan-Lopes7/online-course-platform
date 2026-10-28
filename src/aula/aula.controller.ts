@@ -17,6 +17,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
 import { AdminGuard } from '../auth/admin.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { VideasService } from './videas.service';
 
 interface AuthenticateRequest extends Request {
   user: { sub: number };
@@ -25,7 +26,10 @@ interface AuthenticateRequest extends Request {
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class AulaController {
-  constructor(private readonly aulaService: AulaService) {}
+  constructor(
+    private readonly aulaService: AulaService,
+    private readonly videasService: VideasService,
+  ) {}
 
   @Post('cursos/:cursoId/aulas')
   @UseGuards(AdminGuard)
@@ -62,6 +66,12 @@ export class AulaController {
   @UseGuards(AdminGuard)
   adminFindOne(@Param('id', ParseIntPipe) id: number) {
     return this.aulaService.findOneAdmin(id);
+  }
+
+  @Post('admin/videas/upload')
+  @UseGuards(AdminGuard)
+  async criarUpload(@Body() body: { filename: string; size: number }) {
+    return this.videasService.criarSessaoUpload(body.filename, body.size);
   }
 
   @Patch('aulas/:id')

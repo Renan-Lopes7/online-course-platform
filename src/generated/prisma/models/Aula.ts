@@ -39,21 +39,21 @@ export type AulaSumAggregateOutputType = {
 export type AulaMinAggregateOutputType = {
   id: number | null
   title: string | null
-  videoUrl: string | null
+  videoId: string | null
   cursoId: number | null
 }
 
 export type AulaMaxAggregateOutputType = {
   id: number | null
   title: string | null
-  videoUrl: string | null
+  videoId: string | null
   cursoId: number | null
 }
 
 export type AulaCountAggregateOutputType = {
   id: number
   title: number
-  videoUrl: number
+  videoId: number
   cursoId: number
   _all: number
 }
@@ -72,21 +72,21 @@ export type AulaSumAggregateInputType = {
 export type AulaMinAggregateInputType = {
   id?: true
   title?: true
-  videoUrl?: true
+  videoId?: true
   cursoId?: true
 }
 
 export type AulaMaxAggregateInputType = {
   id?: true
   title?: true
-  videoUrl?: true
+  videoId?: true
   cursoId?: true
 }
 
 export type AulaCountAggregateInputType = {
   id?: true
   title?: true
-  videoUrl?: true
+  videoId?: true
   cursoId?: true
   _all?: true
 }
@@ -180,7 +180,7 @@ export type AulaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type AulaGroupByOutputType = {
   id: number
   title: string
-  videoUrl: string
+  videoId: string
   cursoId: number
   _count: AulaCountAggregateOutputType | null
   _avg: AulaAvgAggregateOutputType | null
@@ -210,7 +210,7 @@ export type AulaWhereInput = {
   NOT?: Prisma.AulaWhereInput | Prisma.AulaWhereInput[]
   id?: Prisma.IntFilter<"Aula"> | number
   title?: Prisma.StringFilter<"Aula"> | string
-  videoUrl?: Prisma.StringFilter<"Aula"> | string
+  videoId?: Prisma.StringFilter<"Aula"> | string
   cursoId?: Prisma.IntFilter<"Aula"> | number
   curso?: Prisma.XOR<Prisma.CursoScalarRelationFilter, Prisma.CursoWhereInput>
 }
@@ -218,7 +218,7 @@ export type AulaWhereInput = {
 export type AulaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  videoUrl?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
   curso?: Prisma.CursoOrderByWithRelationInput
   _relevance?: Prisma.AulaOrderByRelevanceInput
@@ -230,7 +230,7 @@ export type AulaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AulaWhereInput[]
   NOT?: Prisma.AulaWhereInput | Prisma.AulaWhereInput[]
   title?: Prisma.StringFilter<"Aula"> | string
-  videoUrl?: Prisma.StringFilter<"Aula"> | string
+  videoId?: Prisma.StringFilter<"Aula"> | string
   cursoId?: Prisma.IntFilter<"Aula"> | number
   curso?: Prisma.XOR<Prisma.CursoScalarRelationFilter, Prisma.CursoWhereInput>
 }, "id">
@@ -238,7 +238,7 @@ export type AulaWhereUniqueInput = Prisma.AtLeast<{
 export type AulaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  videoUrl?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
   _count?: Prisma.AulaCountOrderByAggregateInput
   _avg?: Prisma.AulaAvgOrderByAggregateInput
@@ -253,52 +253,52 @@ export type AulaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AulaScalarWhereWithAggregatesInput | Prisma.AulaScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Aula"> | number
   title?: Prisma.StringWithAggregatesFilter<"Aula"> | string
-  videoUrl?: Prisma.StringWithAggregatesFilter<"Aula"> | string
+  videoId?: Prisma.StringWithAggregatesFilter<"Aula"> | string
   cursoId?: Prisma.IntWithAggregatesFilter<"Aula"> | number
 }
 
 export type AulaCreateInput = {
   title: string
-  videoUrl: string
+  videoId: string
   curso: Prisma.CursoCreateNestedOneWithoutAulaInput
 }
 
 export type AulaUncheckedCreateInput = {
   id?: number
   title: string
-  videoUrl: string
+  videoId: string
   cursoId: number
 }
 
 export type AulaUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
   curso?: Prisma.CursoUpdateOneRequiredWithoutAulaNestedInput
 }
 
 export type AulaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type AulaCreateManyInput = {
   id?: number
   title: string
-  videoUrl: string
+  videoId: string
   cursoId: number
 }
 
 export type AulaUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AulaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
   cursoId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -321,7 +321,7 @@ export type AulaOrderByRelevanceInput = {
 export type AulaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  videoUrl?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
 }
 
@@ -333,14 +333,14 @@ export type AulaAvgOrderByAggregateInput = {
 export type AulaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  videoUrl?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
 }
 
 export type AulaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  videoUrl?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   cursoId?: Prisma.SortOrder
 }
 
@@ -393,13 +393,13 @@ export type AulaUncheckedUpdateManyWithoutCursoNestedInput = {
 
 export type AulaCreateWithoutCursoInput = {
   title: string
-  videoUrl: string
+  videoId: string
 }
 
 export type AulaUncheckedCreateWithoutCursoInput = {
   id?: number
   title: string
-  videoUrl: string
+  videoId: string
 }
 
 export type AulaCreateOrConnectWithoutCursoInput = {
@@ -434,31 +434,31 @@ export type AulaScalarWhereInput = {
   NOT?: Prisma.AulaScalarWhereInput | Prisma.AulaScalarWhereInput[]
   id?: Prisma.IntFilter<"Aula"> | number
   title?: Prisma.StringFilter<"Aula"> | string
-  videoUrl?: Prisma.StringFilter<"Aula"> | string
+  videoId?: Prisma.StringFilter<"Aula"> | string
   cursoId?: Prisma.IntFilter<"Aula"> | number
 }
 
 export type AulaCreateManyCursoInput = {
   id?: number
   title: string
-  videoUrl: string
+  videoId: string
 }
 
 export type AulaUpdateWithoutCursoInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AulaUncheckedUpdateWithoutCursoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AulaUncheckedUpdateManyWithoutCursoInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -466,7 +466,7 @@ export type AulaUncheckedUpdateManyWithoutCursoInput = {
 export type AulaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  videoUrl?: boolean
+  videoId?: boolean
   cursoId?: boolean
   curso?: boolean | Prisma.CursoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aula"]>
@@ -476,11 +476,11 @@ export type AulaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type AulaSelectScalar = {
   id?: boolean
   title?: boolean
-  videoUrl?: boolean
+  videoId?: boolean
   cursoId?: boolean
 }
 
-export type AulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "videoUrl" | "cursoId", ExtArgs["result"]["aula"]>
+export type AulaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "videoId" | "cursoId", ExtArgs["result"]["aula"]>
 export type AulaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curso?: boolean | Prisma.CursoDefaultArgs<ExtArgs>
 }
@@ -493,7 +493,7 @@ export type $AulaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
-    videoUrl: string
+    videoId: string
     cursoId: number
   }, ExtArgs["result"]["aula"]>
   composites: {}
@@ -867,7 +867,7 @@ export interface Prisma__AulaClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface AulaFieldRefs {
   readonly id: Prisma.FieldRef<"Aula", 'Int'>
   readonly title: Prisma.FieldRef<"Aula", 'String'>
-  readonly videoUrl: Prisma.FieldRef<"Aula", 'String'>
+  readonly videoId: Prisma.FieldRef<"Aula", 'String'>
   readonly cursoId: Prisma.FieldRef<"Aula", 'Int'>
 }
     

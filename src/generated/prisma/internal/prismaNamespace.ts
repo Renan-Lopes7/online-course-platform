@@ -750,7 +750,7 @@ export type CursoScalarFieldEnum = (typeof CursoScalarFieldEnum)[keyof typeof Cu
 export const AulaScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  videoUrl: 'videoUrl',
+  videoId: 'videoId',
   cursoId: 'cursoId'
 } as const
 
@@ -808,7 +808,7 @@ export type CursoOrderByRelevanceFieldEnum = (typeof CursoOrderByRelevanceFieldE
 
 export const AulaOrderByRelevanceFieldEnum = {
   title: 'title',
-  videoUrl: 'videoUrl'
+  videoId: 'videoId'
 } as const
 
 export type AulaOrderByRelevanceFieldEnum = (typeof AulaOrderByRelevanceFieldEnum)[keyof typeof AulaOrderByRelevanceFieldEnum]

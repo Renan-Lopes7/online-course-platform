@@ -10,8 +10,8 @@ export class CreateAulaDto {
 
   @IsString({ message: 'O ID do vídeo deve ser um texto.' })
   @IsNotEmpty({ message: 'O ID do vídeo é obrigatório.' })
-  @MaxLength(255, {
-    message: 'O ID do vídeo deve ter no máximo 255 caracteres.',
+  @MaxLength(100, {
+    message: 'O ID do vídeo deve ter no máximo 100 caracteres.',
   })
-  videoUrl: string;
+  videoId: string;
 }

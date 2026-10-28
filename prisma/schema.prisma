@@ -46,7 +46,7 @@ model Curso {
 model Aula {
   id Int @id @default(autoincrement())
   title String
-  videoUrl String
+  videoId String @db.VarChar(100)
  
   cursoId Int
   curso Curso @relation(fields: [cursoId], references: [id], onDelete: Cascade)
