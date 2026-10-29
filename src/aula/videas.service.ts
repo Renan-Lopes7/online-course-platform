@@ -1,9 +1,19 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class VideasService {
+  private readonly logger = new Logger(VideasService.name);
+
   constructor(private readonly configService: ConfigService) {}
+
+  obterUrlCompletaPlayback(url: string): string {
+    return new URL(url, 'https://app.videas.com').toString();
+  }
 
   async criarSessaoUpload(filename: string, size: number) {
     const apiKey = this.configService.get<string>('VIDEAS_API_KEY');
@@ -43,11 +53,19 @@ export class VideasService {
 
     if (!response.ok) {
       throw new InternalServerErrorException(
-        `Erro ao criar upload no Videas (${response.status}): ${body.slice(0, 300)}`,
+        `Erro ao criar upload no Videas (HTTP ${response.status})`,
       );
     }
 
-    const data = JSON.parse(body);
+    let data: any;
+
+    try {
+      data = JSON.parse(body);
+    } catch {
+      throw new InternalServerErrorException(
+        'O Videas retornou uma resposta inválida ao criar o upload',
+      );
+    }
 
     if (!data.upload_url || !data.upload_token) {
       throw new InternalServerErrorException(
@@ -79,14 +97,22 @@ export class VideasService {
     const body = await response.text();
 
     if (!response.ok) {
+      this.logger.error(
+        `Falha ao consultar embed no Videas. HTTP ${response.status}`,
+      );
+
       throw new InternalServerErrorException(
-        `Erro ao consultar embed no Videas (${response.status}): ${body.slice(0, 300)}`,
+        `Erro ao consultar embed no Videas (HTTP ${response.status})`,
       );
     }
 
     try {
       return JSON.parse(body);
     } catch {
+      this.logger.error(
+        'O Videas retornou JSON inválido na consulta do embed.',
+      );
+
       throw new InternalServerErrorException(
         'O Videas retornou uma resposta inválida ao consultar o embed',
       );
@@ -117,14 +143,22 @@ export class VideasService {
     const body = await response.text();
 
     if (!response.ok) {
+      this.logger.error(
+        `Falha ao obter playback no Videas. HTTP ${response.status}`,
+      );
+
       throw new InternalServerErrorException(
-        `Erro ao obter playback do Videas (${response.status}): ${body.slice(0, 300)}`,
+        `Erro ao obter playback do Videas (HTTP ${response.status})`,
       );
     }
 
     try {
       return JSON.parse(body);
     } catch {
+      this.logger.error(
+        'O Videas retornou JSON inválido na consulta de playback.',
+      );
+
       throw new InternalServerErrorException(
         'O Videas retornou informações de playback inválidas',
       );

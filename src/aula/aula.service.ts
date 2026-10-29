@@ -52,8 +52,13 @@ export class AulaService {
   }
 
   async findOne(id: number, userId: number) {
-    const aula = await this.prismaService.aula.findFirst({ where: { id } });
-    if (!aula) throw new NotFoundException('Aula não encontrada');
+    const aula = await this.prismaService.aula.findFirst({
+      where: { id },
+    });
+
+    if (!aula) {
+      throw new NotFoundException('Aula não encontrada');
+    }
 
     const compra = await this.prismaService.compra.findFirst({
       where: {
@@ -62,6 +67,7 @@ export class AulaService {
         status: 'PAGO',
       },
     });
+
     if (!compra) {
       throw new ForbiddenException('Você não tem acesso a este curso');
     }
@@ -114,7 +120,7 @@ export class AulaService {
 
     return {
       type: playback.type,
-      hlsUrl: playback.hls_url.url,
+      hlsUrl: this.videasService.obterUrlCompletaPlayback(playback.hls_url.url),
       expiresAt: playback.hls_url.expires_at,
     };
   }
@@ -150,7 +156,7 @@ export class AulaService {
 
     return {
       type: playback.type,
-      hlsUrl: playback.hls_url.url,
+      hlsUrl: this.videasService.obterUrlCompletaPlayback(playback.hls_url.url),
       expiresAt: playback.hls_url.expires_at,
     };
   }
@@ -160,7 +166,9 @@ export class AulaService {
       where: { id: cursoId },
     });
 
-    if (!curso) throw new NotFoundException('Este curso não existe');
+    if (!curso) {
+      throw new NotFoundException('Este curso não existe');
+    }
 
     return this.prismaService.aula.findMany({
       where: { cursoId },
@@ -171,23 +179,37 @@ export class AulaService {
     const aula = await this.prismaService.aula.findUnique({
       where: { id },
     });
-    if (!aula) throw new NotFoundException('Esta aula não existe');
+
+    if (!aula) {
+      throw new NotFoundException('Esta aula não existe');
+    }
+
     return aula;
   }
 
   async update(id: number, updateAulaDto: UpdateAulaDto) {
-    const aula = await this.prismaService.aula.findUnique({ where: { id } });
-    if (!aula) throw new NotFoundException('Aula não encontrada');
+    const aula = await this.prismaService.aula.findUnique({
+      where: { id },
+    });
 
-    return await this.prismaService.aula.update({
+    if (!aula) {
+      throw new NotFoundException('Aula não encontrada');
+    }
+
+    return this.prismaService.aula.update({
       where: { id },
       data: updateAulaDto,
     });
   }
 
   async remove(id: number) {
-    const aula = await this.prismaService.aula.findUnique({ where: { id } });
-    if (!aula) throw new NotFoundException('Aula não encontrada');
+    const aula = await this.prismaService.aula.findUnique({
+      where: { id },
+    });
+
+    if (!aula) {
+      throw new NotFoundException('Aula não encontrada');
+    }
 
     return this.prismaService.aula.delete({
       where: { id },
