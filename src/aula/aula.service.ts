@@ -6,10 +6,14 @@ import {
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';
 import { PrismaService } from '../database/database.service';
+import { VideasService } from './videas.service';
 
 @Injectable()
 export class AulaService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly videasService: VideasService,
+  ) {}
 
   create(cursoId: number, createAulaDto: CreateAulaDto) {
     return this.prismaService.aula.create({
@@ -59,10 +63,96 @@ export class AulaService {
       },
     });
     if (!compra) {
-      throw new ForbiddenException("'Você não tem acesso a este curso");
+      throw new ForbiddenException('Você não tem acesso a este curso');
     }
 
     return aula;
+  }
+
+  async obterPlayback(id: number, userId: number) {
+    const aula = await this.findOne(id, userId);
+
+    if (!aula.videoId?.trim()) {
+      throw new NotFoundException(
+        'Esta aula ainda não possui um vídeo cadastrado',
+      );
+    }
+
+    return aula.videoId;
+  }
+
+  async obterDadosPlayback(id: number, userId: number) {
+    const aula = await this.findOne(id, userId);
+
+    if (!aula.embedId?.trim()) {
+      throw new NotFoundException(
+        'O vídeo desta aula está temporariamente indisponível',
+      );
+    }
+
+    const embed = await this.videasService.criarTokenPlayback(aula.embedId);
+
+    const assetId = embed.items?.[0]?.asset?.uid;
+    const playbackToken = embed.playback_token;
+
+    if (!assetId || !playbackToken) {
+      throw new NotFoundException(
+        'Não foi possível obter os dados de reprodução do vídeo',
+      );
+    }
+
+    const playback = await this.videasService.obterInformacoesPlayback(
+      assetId,
+      playbackToken,
+    );
+
+    if (playback.blocked || !playback.hls_url?.url) {
+      throw new ForbiddenException(
+        'Este vídeo não está disponível para reprodução',
+      );
+    }
+
+    return {
+      type: playback.type,
+      hlsUrl: playback.hls_url.url,
+      expiresAt: playback.hls_url.expires_at,
+    };
+  }
+
+  async obterDadosPlaybackAdmin(id: number) {
+    const aula = await this.findOneAdmin(id);
+
+    if (!aula.embedId?.trim()) {
+      throw new NotFoundException(
+        'O vídeo desta aula está temporariamente indisponível.',
+      );
+    }
+
+    const embed = await this.videasService.criarTokenPlayback(aula.embedId);
+
+    const assetId = embed.items?.[0]?.asset?.uid;
+    const playbackToken = embed.playback_token;
+
+    if (!assetId || !playbackToken) {
+      throw new NotFoundException('Não foi possível obter o vídeo desta aula.');
+    }
+
+    const playback = await this.videasService.obterInformacoesPlayback(
+      assetId,
+      playbackToken,
+    );
+
+    if (playback.blocked || !playback.hls_url?.url) {
+      throw new ForbiddenException(
+        'Este vídeo não está disponível para reprodução.',
+      );
+    }
+
+    return {
+      type: playback.type,
+      hlsUrl: playback.hls_url.url,
+      expiresAt: playback.hls_url.expires_at,
+    };
   }
 
   async findAllAdmin(cursoId: number) {

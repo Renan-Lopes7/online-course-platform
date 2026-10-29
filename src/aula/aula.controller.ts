@@ -74,6 +74,28 @@ export class AulaController {
     return this.videasService.criarSessaoUpload(body.filename, body.size);
   }
 
+  @Get('admin/videas/embed/:embedId')
+  @UseGuards(AdminGuard)
+  async consultarEmbed(@Param('embedId') embedId: string) {
+    return this.videasService.criarTokenPlayback(embedId);
+  }
+
+  @Get('aulas/:id/playback')
+  async obterPlayback(
+    @Req() req: AuthenticateRequest,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.aulaService.obterDadosPlayback(id, req.user.sub);
+  }
+
+  @Get('admin/aulas/:id/playback')
+  @UseGuards(AdminGuard)
+  async obterPlaybackAdmin(@Param('id', ParseIntPipe) id: number) {
+    const aula = await this.aulaService.findOneAdmin(id);
+
+    return this.aulaService.obterDadosPlaybackAdmin(aula.id);
+  }
+
   @Patch('aulas/:id')
   @UseGuards(AdminGuard)
   update(

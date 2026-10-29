@@ -64,4 +64,70 @@ export class VideasService {
       expiresAt: data.expires_at,
     };
   }
+
+  async criarTokenPlayback(embedId: string) {
+    if (!embedId?.trim()) {
+      throw new InternalServerErrorException(
+        'O identificador do embed é obrigatório',
+      );
+    }
+
+    const response = await fetch(
+      `https://app.videas.com/api/visitor/embed/${encodeURIComponent(embedId)}/`,
+    );
+
+    const body = await response.text();
+
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `Erro ao consultar embed no Videas (${response.status}): ${body.slice(0, 300)}`,
+      );
+    }
+
+    try {
+      return JSON.parse(body);
+    } catch {
+      throw new InternalServerErrorException(
+        'O Videas retornou uma resposta inválida ao consultar o embed',
+      );
+    }
+  }
+
+  async obterInformacoesPlayback(assetId: string, playbackToken: string) {
+    if (!assetId?.trim() || !playbackToken?.trim()) {
+      throw new InternalServerErrorException(
+        'Asset ID e token de playback são obrigatórios',
+      );
+    }
+
+    const response = await fetch(
+      'https://app.videas.com/api/visitor/playback/info/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          asset_id: assetId,
+          playback_token: playbackToken,
+        }),
+      },
+    );
+
+    const body = await response.text();
+
+    if (!response.ok) {
+      throw new InternalServerErrorException(
+        `Erro ao obter playback do Videas (${response.status}): ${body.slice(0, 300)}`,
+      );
+    }
+
+    try {
+      return JSON.parse(body);
+    } catch {
+      throw new InternalServerErrorException(
+        'O Videas retornou informações de playback inválidas',
+      );
+    }
+  }
 }

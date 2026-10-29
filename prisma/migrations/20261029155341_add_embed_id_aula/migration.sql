@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Aula` ADD COLUMN `embedId` VARCHAR(100) NULL;
