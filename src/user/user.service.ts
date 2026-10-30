@@ -50,7 +50,7 @@ export class UserService {
     if (password) {
       if (!currentPassword) {
         throw new BadRequestException(
-          'Digite usa senha atual para mudar de senha',
+          'Digite sua senha atual para mudar de senha',
         );
       }
       const passwordIsValid = await bcrypt.compare(
