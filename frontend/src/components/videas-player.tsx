@@ -35,24 +35,24 @@ function friendlyPlaybackError(error: unknown, admin: boolean) {
 
 function hlsPlaybackError(type: string, detail: string, status?: number) {
   if (status === 401 || status === 403) {
-    return "O Videas recusou o link de reprodução (HTTP " + status + "). Atualize o streaming para solicitar um link válido.";
+    return "Não foi possível autorizar a reprodução deste vídeo. Atualize o streaming e tente novamente.";
   }
   if (status === 404) {
-    return "O vídeo ou uma parte do streaming não foi encontrado (HTTP 404). Confira se o vídeo está disponível no Videas.";
+    return "Este vídeo não está disponível no momento. Confira se ele foi publicado corretamente e tente novamente.";
   }
   if (status && status >= 500) {
-    return "O Videas está temporariamente indisponível (HTTP " + status + "). Tente atualizar o streaming em instantes.";
+    return "O serviço de vídeo está temporariamente indisponível. Tente novamente em instantes.";
   }
   if (type === "networkError") {
-    return "Não foi possível acessar o streaming. Pode ser uma falha de rede ou uma restrição de CORS do Videas para esta origem.";
+    return "Não foi possível carregar o vídeo. Verifique sua conexão e tente novamente.";
   }
   if (type === "mediaError") {
-    return "O navegador não conseguiu decodificar este vídeo. Confira o formato e a publicação do streaming no Videas.";
+    return "Não foi possível reproduzir este vídeo. Tente novamente mais tarde.";
   }
   if (detail.toLowerCase().includes("manifest")) {
-    return "Não foi possível carregar a lista do streaming. Verifique a disponibilidade do vídeo e as permissões CORS no Videas.";
+    return "Não foi possível carregar este vídeo. Verifique sua conexão e tente novamente.";
   }
-  return "O player encontrou uma falha ao abrir o streaming (" + detail + "). Atualize para solicitar um novo link.";
+  return "Ocorreu um problema ao abrir o vídeo. Atualize o streaming e tente novamente.";
 }
 
 function nativePlaybackError(video: HTMLVideoElement) {
@@ -60,11 +60,11 @@ function nativePlaybackError(video: HTMLVideoElement) {
     case MediaError.MEDIA_ERR_ABORTED:
       return "A reprodução foi interrompida. Tente iniciar o vídeo novamente.";
     case MediaError.MEDIA_ERR_NETWORK:
-      return "O navegador não conseguiu carregar o streaming. Verifique a conexão ou as permissões CORS do Videas.";
+      return "Não foi possível carregar o vídeo. Verifique sua conexão e tente novamente.";
     case MediaError.MEDIA_ERR_DECODE:
-      return "O navegador não conseguiu decodificar este vídeo. Confira o formato publicado no Videas.";
+      return "Não foi possível reproduzir este vídeo. Tente novamente mais tarde.";
     case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-      return "Este navegador não conseguiu abrir o formato do streaming.";
+      return "Este vídeo não pode ser reproduzido neste navegador.";
     default:
       return "O vídeo não pôde ser reproduzido. Atualize o streaming e tente novamente.";
   }

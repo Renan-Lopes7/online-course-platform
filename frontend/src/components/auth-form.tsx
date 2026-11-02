@@ -18,6 +18,14 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     try {
       if (mode === "register") {
         const credentials = { name: String(data.get("name")), email: String(data.get("email")), password: String(data.get("password")) };
+        if (credentials.name.trim().length < 3) {
+          setError("O nome deve ter no mínimo 3 caracteres.");
+          return;
+        }
+        if (credentials.name.length > 100) {
+          setError("O nome deve ter no máximo 100 caracteres.");
+          return;
+        }
         await authService.register(credentials);
         try {
           const result = await authService.login({ email: credentials.email, password: credentials.password });
@@ -36,7 +44,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   }
 
   return <form className="form-panel" onSubmit={submit}>
-    {mode === "register" && <label>Nome completo<input name="name" required maxLength={100} autoComplete="name" /></label>}
+    {mode === "register" && <label>Nome completo<input name="name" type="text" required minLength={3} maxLength={100} autoComplete="name" /></label>}
     <label>E-mail<input name="email" type="email" required maxLength={254} autoComplete="email" /></label>
     <label>Senha<input name="password" type="password" required minLength={8} maxLength={72} autoComplete={mode === "login" ? "current-password" : "new-password"} /></label>
     {error && <p className="form-error" role="alert">{error}</p>}

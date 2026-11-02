@@ -23,9 +23,28 @@ function ProfileContent() {
     const password = String(values.get("password") ?? "");
     const currentPassword = String(values.get("currentPassword") ?? "");
     const data: UpdateUserData = {};
-    if (name) data.name = name;
+    if (name) {
+      if (name.length < 3) {
+        setError("O nome deve ter no mínimo 3 caracteres.");
+        setSuccess("");
+        return;
+      }
+      if (name.length > 100) {
+        setError("O nome deve ter no máximo 100 caracteres.");
+        setSuccess("");
+        return;
+      }
+      data.name = name;
+    }
     if (email) data.email = email;
     if (password) {
+      if (password.length < 8 || password.length > 72) {
+        setError(password.length < 8
+          ? "A senha deve ter no mínimo 8 caracteres."
+          : "A senha deve ter no máximo 72 caracteres.");
+        setSuccess("");
+        return;
+      }
       if (!currentPassword) {
         setError("Informe sua senha atual para cadastrar uma nova senha.");
         setSuccess("");
@@ -55,9 +74,9 @@ function ProfileContent() {
   }
 
   return <><SiteHeader showHomeLink /><main className="page-shell auth-shell profile-shell"><p className="eyebrow">MINHA CONTA</p><h1>ATUALIZAR<br />PERFIL</h1><p className="auth-lede">Preencha somente os dados que deseja alterar. Para trocar a senha, informe sua senha atual e a nova senha.</p><form className="form-panel" onSubmit={submit}>
-    <label>Nome<input name="name" type="text" autoComplete="name" maxLength={100} placeholder="Novo nome" /></label>
+    <label>Nome<input name="name" type="text" autoComplete="name" minLength={3} maxLength={100} placeholder="Novo nome" /></label>
     <label>E-mail<input name="email" type="email" autoComplete="email" maxLength={254} placeholder="novo@email.com" /></label>
-    <label>Senha atual<input name="currentPassword" type="password" autoComplete="current-password" /></label>
+    <label>Senha atual<input name="currentPassword" type="password" autoComplete="current-password" minLength={8} /></label>
     <label>Nova senha<input name="password" type="password" autoComplete="new-password" minLength={8} maxLength={72} /></label>
     {error && <p className="form-error" role="alert">{error}</p>}
     {success && <p className="success-note" role="status">{success}</p>}

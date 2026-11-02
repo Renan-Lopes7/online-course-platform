@@ -36,8 +36,129 @@ export type PixQrCode = {
 
 const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
+/**
+ * Only explicitly approved business messages from the API may be shown verbatim.
+ * Unknown backend errors are intentionally hidden to avoid exposing implementation
+ * details, database errors, stack traces, infrastructure or security information.
+ */
+const SAFE_BACKEND_MESSAGES = new Set([
+  "Usuário não encontrado.",
+  "Usuário cadastrado com sucesso.",
+  "Usuário atualizado com sucesso",
+  "Você não tem acesso a este curso",
+  "Credencias inválidas",
+]);
+
+const SAFE_VALIDATION_MESSAGES: Record<string, string> = {
+  "O nome deve ser um texto.": "Informe um nome válido.",
+  "O nome é obrigatório.": "Informe seu nome.",
+  "O nome deve ter no mínimo 3 caracteres.": "O nome deve ter no mínimo 3 caracteres.",
+  "O nome deve ter no máximo 100 caracteres.": "O nome deve ter no máximo 100 caracteres.",
+  "Informe um endereço de e-mail válido.": "Informe um endereço de e-mail válido.",
+  "O e-mail é obrigatório.": "Informe seu e-mail.",
+  "O e-mail deve ter no máximo 254 caracteres.": "O e-mail deve ter no máximo 254 caracteres.",
+  "A senha deve ser um texto.": "Informe uma senha válida.",
+  "A senha é obrigatória.": "Informe sua senha.",
+  "A senha deve ter no mínimo 8 caracteres.": "A senha deve ter no mínimo 8 caracteres.",
+  "A senha deve ter no máximo 72 caracteres.": "A senha deve ter no máximo 72 caracteres.",
+  "O título do curso deve ser um texto.": "Informe um título válido para o curso.",
+  "O título do curso é obrigatório.": "Informe o título do curso.",
+  "O título do curso deve ter no máximo 150 caracteres.": "O título do curso deve ter no máximo 150 caracteres.",
+  "A descrição deve ser um texto.": "Informe uma descrição válida.",
+  "A descrição do curso é obrigatória.": "Informe a descrição do curso.",
+  "A descrição deve ter no máximo 2000 caracteres.": "A descrição deve ter no máximo 2000 caracteres.",
+  "O preço deve ser um número com até duas casas decimais.": "Informe um preço válido, com até duas casas decimais.",
+  "O preço deve ser maior que zero.": "O preço deve ser maior que zero.",
+  "O título deve ser um texto.": "Informe um título válido para a aula.",
+  "O título da aula é obrigatório.": "Informe o título da aula.",
+  "O título deve ter no máximo 150 caracteres.": "O título da aula deve ter no máximo 150 caracteres.",
+  "O ID do vídeo deve ser um texto.": "Não foi possível validar o vídeo selecionado.",
+  "O ID do vídeo é obrigatório.": "Selecione um vídeo para a aula.",
+  "O ID do vídeo deve ter no máximo 100 caracteres.": "O vídeo selecionado não pode exceder o limite permitido.",
+  "O CPF deve ser enviado como texto.": "Informe um CPF válido.",
+  "O CPF é obrigatório.": "Informe seu CPF.",
+  "O CPF informado é inválido.": "O CPF informado é inválido. Confira os números e tente novamente.",
+};
+
+const SAFE_BUSINESS_MESSAGES: Record<string, string> = {
+  "Senha atual incorreta": "A senha atual não confere. Confira e tente novamente.",
+  "Digite sua senha atual para mudar de senha": "Informe sua senha atual para alterar a senha.",
+  "Este e-mail já está cadastrado.": "Este e-mail já está em uso. Tente outro endereço.",
+  "Compra não encontrada": "Não foi possível encontrar esta compra. Confira sua área do aluno.",
+  "Apenas compras pendentes podem gerar cobrança": "Esta compra não está mais pendente e não pode gerar um novo Pix.",
+  "Esta compra já possui uma cobrança associada": "Esta compra já tem uma cobrança Pix. Abra o pagamento para consultar o código.",
+  "Esta compra não possui uma cobrança Pix": "Esta compra ainda não tem uma cobrança Pix. Gere o Pix novamente.",
+  "Este curso não existe": "Não foi possível encontrar este curso. Atualize a página e tente novamente.",
+  "Você já comprou este curso": "Você já tem acesso a este curso. Confira sua área do aluno.",
+  "Apenas compras pendentes podem ser canceladas": "Somente compras pendentes podem ser canceladas. Atualize a página para ver o status atual.",
+  "Curso não encontrado": "Não foi possível encontrar este curso. Atualize a página e tente novamente.",
+  "Aula não encontrada": "Não foi possível encontrar esta aula. Atualize a página e tente novamente.",
+  "Essas aulas não existem para esse curso": "Este curso ainda não tem aulas disponíveis.",
+  "Esta aula ainda não possui um vídeo cadastrado": "O vídeo desta aula ainda não está disponível.",
+  "O vídeo desta aula está temporariamente indisponível": "O vídeo desta aula está temporariamente indisponível. Tente novamente mais tarde.",
+  "Este vídeo não está disponível para reprodução": "Este vídeo está temporariamente indisponível. Tente novamente mais tarde.",
+  "Acesso não autorizado": "Você não tem acesso a este conteúdo. Confira sua conta e o status da compra.",
+};
+
+function getSafeApiMessage(status: number, backendMessage: unknown, path: string): string {
+  const messages = typeof backendMessage === "string"
+    ? [backendMessage]
+    : Array.isArray(backendMessage)
+      ? backendMessage.filter((item): item is string => typeof item === "string")
+      : [];
+
+  const normalized = messages.map(message => message.trim()).filter(Boolean);
+  const isLoginRequest = path === "/auth/signin";
+
+  // Preserve only known, deliberately approved business messages.
+  if (isLoginRequest && (status === 401 || status === 404)) {
+    return "E-mail ou senha incorretos. Confira seus dados e tente novamente.";
+  }
+
+  const safeBusinessMessage = normalized.find(message => SAFE_BUSINESS_MESSAGES[message]);
+  if (safeBusinessMessage) return SAFE_BUSINESS_MESSAGES[safeBusinessMessage];
+
+  const safeValidationMessage = normalized.find(message => SAFE_VALIDATION_MESSAGES[message]);
+  if (status === 400 && safeValidationMessage) {
+    return SAFE_VALIDATION_MESSAGES[safeValidationMessage];
+  }
+
+  const approvedMessage = normalized.find(message => SAFE_BACKEND_MESSAGES.has(message));
+  if (approvedMessage) {
+    // Avoid revealing that an account exists during login.
+    if (isLoginRequest && approvedMessage === "Usuário não encontrado.") {
+      return "E-mail ou senha incorretos. Confira seus dados e tente novamente.";
+    }
+    return approvedMessage;
+  }
+
+  // Safe generic messages: never return raw unknown server text.
+  switch (status) {
+    case 400:
+      return "Não foi possível validar os dados informados. Confira os campos e tente novamente.";
+    case 401:
+      return "Sua autenticação não é válida ou expirou. Entre novamente para continuar.";
+    case 403:
+      return "Não foi possível realizar esta ação com as permissões desta conta.";
+    case 404:
+      return "Não foi possível encontrar o conteúdo solicitado.";
+    case 409:
+      return "Esta operação não pode ser concluída porque os dados ou o status foram alterados. Atualize a página e tente novamente.";
+    case 422:
+      return "Não foi possível processar os dados informados. Confira os campos e tente novamente.";
+    case 429:
+      return "Muitas tentativas em pouco tempo. Aguarde um momento e tente novamente.";
+    default:
+      if (status >= 500) {
+        return "Ocorreu um problema ao processar sua solicitação. Tente novamente mais tarde.";
+      }
+      return "Não foi possível concluir sua solicitação. Tente novamente.";
+  }
+}
+
 export async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   let response: Response;
+
   try {
     response = await fetch(`${apiUrl}${path}`, {
       ...options,
@@ -49,25 +170,36 @@ export async function request<T>(path: string, options: RequestInit = {}, token?
       },
     });
   } catch {
-    throw new Error("Estamos com uma instabilidade momentânea. Tente novamente em alguns instantes.");
+    // Sem resposta HTTP: este aviso é necessariamente gerado pelo frontend.
+    throw new Error("Não foi possível conectar à plataforma. Verifique sua conexão e tente novamente.");
   }
 
   if (!response.ok) {
-    let message = "Não foi possível concluir a operação. Tente novamente.";
+    let backendMessage: unknown;
+
     try {
-      const data = await response.json() as { message?: string | string[] };
-      if (typeof data.message === "string") message = data.message;
-      else if (Array.isArray(data.message)) message = data.message.join(" ");
-    } catch { /* resposta sem JSON */ }
-    if (response.status === 401) {
-      if (typeof window !== "undefined") window.dispatchEvent(new Event("session-expired"));
-      throw new Error("Sua sessão expirou. Entre novamente para continuar.");
+      const data = await response.json() as { message?: unknown };
+      backendMessage = data.message;
+    } catch {
+      // Resposta sem JSON: usar mensagem genérica segura abaixo.
     }
-    if (response.status === 403) throw new Error("Acesso não autorizado para esta operação.");
-    if (response.status >= 500) throw new Error("A plataforma está temporariamente indisponível. Tente novamente.");
-    throw new Error(message);
+
+    const isLoginRequest = path === "/auth/signin";
+    const isProfilePasswordCheck = path.startsWith("/user/") && options.method === "PATCH";
+    if (response.status === 401 && Boolean(token) && !isLoginRequest && !isProfilePasswordCheck) {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("session-expired"));
+      }
+    }
+
+    throw new Error(getSafeApiMessage(response.status, backendMessage, path));
   }
-  if (response.status === 204) return undefined as T;
+
+  if (response.status === 204 || response.status === 205) return undefined as T;
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) return undefined as T;
+
   return response.json() as Promise<T>;
 }
 

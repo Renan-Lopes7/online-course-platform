@@ -34,7 +34,7 @@ function AdminContent() {
     event.preventDefault(); if (!session) return;
     const form = new FormData(event.currentTarget);
     const data = { title: String(form.get("title")), description: String(form.get("description")), price: Number(form.get("price")) };
-    void run(() => adminService.createCourse(data, session.token), "Curso criado.");
+    void run(() => adminService.createCourse(data, session.token), "Curso criado com sucesso.");
   }
   async function lessonSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

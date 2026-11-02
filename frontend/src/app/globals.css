@@ -348,11 +348,15 @@ button {
   object-position: center;
 }
 .course-art,
-.detail-art { padding: 0; }
+.detail-art {
+  padding: 0;
+}
 .course-art::before,
 .course-art::after,
 .detail-art::before,
-.detail-art::after { content: none; }
+.detail-art::after {
+  content: none;
+}
 .course-copy h2 {
   font-size: clamp(20px, 2.4vw, 34px);
   line-height: 1.1;
@@ -3262,6 +3266,14 @@ form textarea,
   outline-offset: 2px;
 }
 
+.admin-form select.admin-course-select:hover,
+.admin-form select.admin-course-select:focus,
+.admin-form select.admin-course-select:focus-visible {
+  border-color: var(--orange);
+  outline-color: var(--orange);
+  accent-color: var(--orange);
+}
+
 .admin-form select.admin-course-select option {
   background-color: #fff;
   color: #181615;
@@ -3817,7 +3829,9 @@ button[class*="access-lessons"] span {
   padding: 25px 25px 28px;
   border: 1px solid #252525;
   border-radius: 6px;
-  background: linear-gradient(145deg, rgba(255,255,255,.018), transparent 42%), #090a0a;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.018), transparent 42%),
+    #090a0a;
 }
 .admin-panel > .eyebrow {
   margin: 0 0 18px;
@@ -3833,11 +3847,13 @@ button[class*="access-lessons"] span {
 .admin-panel-heading h1 {
   margin: 0 0 8px;
   font-size: clamp(34px, 3.2vw, 48px);
-  line-height: .98;
-  letter-spacing: -.075em;
+  line-height: 0.98;
+  letter-spacing: -0.075em;
   font-weight: 800;
 }
-.admin-panel-heading h1 span { color: var(--orange); }
+.admin-panel-heading h1 span {
+  color: var(--orange);
+}
 .admin-panel-heading p {
   margin: 0;
   color: #aaa7a1;
@@ -3853,7 +3869,7 @@ button[class*="access-lessons"] span {
   gap: 10px;
   color: #e0dcd6;
   font: 700 11px/1.4 var(--mono);
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .admin-form input:not([type="file"]),
@@ -3869,10 +3885,14 @@ button[class*="access-lessons"] span {
   font: 13px var(--mono);
   text-transform: none;
 }
-.admin-form textarea { min-height: 108px; }
+.admin-form textarea {
+  min-height: 108px;
+}
 .admin-form input:focus,
 .admin-form textarea:focus,
-.admin-form select:focus { border-color: var(--orange); }
+.admin-form select:focus {
+  border-color: var(--orange);
+}
 .admin-form .videas-upload {
   width: 100%;
   min-height: 150px;
@@ -3882,8 +3902,12 @@ button[class*="access-lessons"] span {
   background: #0b0c0c;
   text-align: center;
 }
-.admin-form .videas-upload > label { align-self: flex-start; }
-.admin-form .videas-upload input[type="file"] { max-width: 100%; }
+.admin-form .videas-upload > label {
+  align-self: flex-start;
+}
+.admin-form .videas-upload input[type="file"] {
+  max-width: 100%;
+}
 .admin-form button.admin-course-create-button,
 .admin-form button.admin-lesson-create-button {
   margin-top: 12px;
@@ -3903,15 +3927,17 @@ button[class*="access-lessons"] span {
 }
 
 /* Admin course editing page */
-.detail-shell:has(.admin-course-edit) { padding-top: 34px; }
+.detail-shell:has(.admin-course-edit) {
+  padding-top: 34px;
+}
 .detail-shell:has(.admin-course-edit) .detail-title {
   margin: 0 0 20px;
   font-size: clamp(42px, 5.2vw, 68px);
-  line-height: .95;
-  letter-spacing: -.075em;
+  line-height: 0.95;
+  letter-spacing: -0.075em;
 }
 .detail-shell:has(.admin-course-edit) .detail-grid {
-  grid-template-columns: minmax(0, 2fr) minmax(270px, .92fr);
+  grid-template-columns: minmax(0, 2fr) minmax(270px, 0.92fr);
   gap: 22px;
   align-items: stretch;
 }
@@ -3921,7 +3947,12 @@ button[class*="access-lessons"] span {
   min-height: 245px;
   border: 1px solid #292929;
   border-radius: 6px;
-  background: radial-gradient(ellipse at 58% 35%, #292725 0, #151515 42%, #090909 78%);
+  background: radial-gradient(
+    ellipse at 58% 35%,
+    #292725 0,
+    #151515 42%,
+    #090909 78%
+  );
 }
 .detail-shell:has(.admin-course-edit) .detail-info.admin-course-edit {
   grid-column: 1;
@@ -3934,20 +3965,22 @@ button[class*="access-lessons"] span {
 .detail-shell:has(.admin-course-edit) .admin-course-edit > .eyebrow {
   color: var(--orange);
   font: 700 12px var(--mono);
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
 }
 .detail-shell:has(.admin-course-edit) .course-edit-form {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(180px, .9fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(180px, 0.9fr);
   gap: 18px 24px;
   margin-top: 18px;
 }
-.detail-shell:has(.admin-course-edit) .course-edit-form label:nth-child(2) { grid-column: 1 / -1; }
+.detail-shell:has(.admin-course-edit) .course-edit-form label:nth-child(2) {
+  grid-column: 1 / -1;
+}
 .detail-shell:has(.admin-course-edit) .course-edit-form label {
   gap: 10px;
   color: #e0dcd6;
   font: 700 11px var(--mono);
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
 }
 .detail-shell:has(.admin-course-edit) .course-edit-form input,
 .detail-shell:has(.admin-course-edit) .course-edit-form textarea {
@@ -3958,7 +3991,9 @@ button[class*="access-lessons"] span {
   background: #0d0e0e;
   font: 13px var(--mono);
 }
-.detail-shell:has(.admin-course-edit) .course-edit-form textarea { min-height: 94px; }
+.detail-shell:has(.admin-course-edit) .course-edit-form textarea {
+  min-height: 94px;
+}
 .detail-shell:has(.admin-course-edit) .admin-course-save-button {
   justify-self: end;
   align-self: end;
@@ -3977,7 +4012,9 @@ button[class*="access-lessons"] span {
   align-items: center;
   margin-bottom: 18px;
 }
-.detail-shell:has(.admin-course-edit) .admin-lesson-heading h2 { font-size: 36px; }
+.detail-shell:has(.admin-course-edit) .admin-lesson-heading h2 {
+  font-size: 36px;
+}
 .detail-shell:has(.admin-course-edit) .admin-lesson-row {
   flex-direction: row;
   align-items: center;
@@ -3988,8 +4025,14 @@ button[class*="access-lessons"] span {
   background: #0d0e0e;
   margin-bottom: 8px;
 }
-.detail-shell:has(.admin-course-edit) .admin-lesson-row h3 { font: 500 13px var(--mono); }
-.detail-shell:has(.admin-course-edit) .admin-lesson-row-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.detail-shell:has(.admin-course-edit) .admin-lesson-row h3 {
+  font: 500 13px var(--mono);
+}
+.detail-shell:has(.admin-course-edit) .admin-lesson-row-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
 .detail-shell:has(.admin-course-edit) .admin-lesson-editor {
   padding: 20px;
   border: 1px solid #292929;
@@ -4002,31 +4045,63 @@ button[class*="access-lessons"] span {
   gap: 16px;
   margin-bottom: 16px;
 }
-.admin-lesson-preview-heading h3 { margin: 0; font-size: 17px; }
-.admin-lesson-video-frame { margin-top: 14px; }
+.admin-lesson-preview-heading h3 {
+  margin: 0;
+  font-size: 17px;
+}
+.admin-lesson-video-frame {
+  margin-top: 14px;
+}
 
 @media (max-width: 900px) {
-  .admin-grid { grid-template-columns: 1fr; }
-  .detail-shell:has(.admin-course-edit) .detail-grid { grid-template-columns: 1fr; }
-  .detail-shell:has(.admin-course-edit) .detail-art { grid-column: 1; grid-row: 1; min-height: 190px; }
-  .detail-shell:has(.admin-course-edit) .detail-info.admin-course-edit { grid-column: 1; grid-row: 2; }
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-shell:has(.admin-course-edit) .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-shell:has(.admin-course-edit) .detail-art {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 190px;
+  }
+  .detail-shell:has(.admin-course-edit) .detail-info.admin-course-edit {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }
 @media (max-width: 600px) {
-  .admin-shell { padding: 25px 16px 55px; }
-  .admin-panel { padding: 20px 17px; }
-  .admin-panel-heading h1 { font-size: 38px; }
-  .detail-shell:has(.admin-course-edit) .course-edit-form { grid-template-columns: 1fr; }
-  .detail-shell:has(.admin-course-edit) .course-edit-form label:nth-child(2) { grid-column: auto; }
+  .admin-shell {
+    padding: 25px 16px 55px;
+  }
+  .admin-panel {
+    padding: 20px 17px;
+  }
+  .admin-panel-heading h1 {
+    font-size: 38px;
+  }
+  .detail-shell:has(.admin-course-edit) .course-edit-form {
+    grid-template-columns: 1fr;
+  }
+  .detail-shell:has(.admin-course-edit) .course-edit-form label:nth-child(2) {
+    grid-column: auto;
+  }
   .detail-shell:has(.admin-course-edit) .detail-info.admin-course-edit,
-  .detail-shell:has(.admin-course-edit) .admin-lesson-management { padding: 18px; }
-  .detail-shell:has(.admin-course-edit) .admin-lesson-row { align-items: flex-start; flex-direction: column; }
-  .detail-shell:has(.admin-course-edit) .admin-lesson-row-actions { gap: 8px; }
+  .detail-shell:has(.admin-course-edit) .admin-lesson-management {
+    padding: 18px;
+  }
+  .detail-shell:has(.admin-course-edit) .admin-lesson-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .detail-shell:has(.admin-course-edit) .admin-lesson-row-actions {
+    gap: 8px;
+  }
 }
-
 
 /* Course cover picker: scoped to the admin course editing route only. */
 .detail-shell:has(.admin-course-edit) .detail-grid {
-  grid-template-columns: minmax(0, 1.7fr) minmax(320px, .9fr);
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
   align-items: stretch;
   gap: 20px;
 }
@@ -4036,7 +4111,7 @@ button[class*="access-lessons"] span {
   flex-direction: column;
 }
 .detail-shell:has(.admin-course-edit) .course-edit-form {
-  grid-template-columns: minmax(0, 1.15fr) minmax(170px, .85fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(170px, 0.85fr);
   align-items: end;
   gap: 20px 26px;
   flex: 1;
@@ -4046,7 +4121,9 @@ button[class*="access-lessons"] span {
 }
 .detail-shell:has(.admin-course-edit) .course-edit-form input,
 .detail-shell:has(.admin-course-edit) .course-edit-form textarea {
-  transition: border-color .2s ease, background .2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 .detail-shell:has(.admin-course-edit) .course-edit-form input:focus,
 .detail-shell:has(.admin-course-edit) .course-edit-form textarea:focus {
@@ -4115,7 +4192,9 @@ button[class*="access-lessons"] span {
   resize: vertical;
 }
 
-.detail-shell:has(.admin-course-edit) .course-edit-form .admin-course-save-button {
+.detail-shell:has(.admin-course-edit)
+  .course-edit-form
+  .admin-course-save-button {
   grid-column: 2;
   grid-row: 3;
   justify-self: end;
@@ -4127,7 +4206,9 @@ button[class*="access-lessons"] span {
   cursor: pointer;
 }
 
-.detail-shell:has(.admin-course-edit) .course-edit-form .admin-course-save-button:disabled {
+.detail-shell:has(.admin-course-edit)
+  .course-edit-form
+  .admin-course-save-button:disabled {
   cursor: wait;
 }
 
@@ -4137,7 +4218,9 @@ button[class*="access-lessons"] span {
 }
 
 .detail-shell:has(.admin-course-edit) .admin-lesson-row-actions button:disabled,
-.detail-shell:has(.admin-course-edit) .admin-lesson-preview-heading button:disabled {
+.detail-shell:has(.admin-course-edit)
+  .admin-lesson-preview-heading
+  button:disabled {
   cursor: not-allowed;
 }
 
@@ -4149,12 +4232,54 @@ button[class*="access-lessons"] span {
   .detail-shell:has(.admin-course-edit) .course-edit-form > label:nth-child(1),
   .detail-shell:has(.admin-course-edit) .course-edit-form > label:nth-child(2),
   .detail-shell:has(.admin-course-edit) .course-edit-form > label:nth-child(3),
-  .detail-shell:has(.admin-course-edit) .course-edit-form .admin-course-save-button {
+  .detail-shell:has(.admin-course-edit)
+    .course-edit-form
+    .admin-course-save-button {
     grid-column: 1;
   }
 
-  .detail-shell:has(.admin-course-edit) .course-edit-form .admin-course-save-button {
+  .detail-shell:has(.admin-course-edit)
+    .course-edit-form
+    .admin-course-save-button {
     grid-row: auto;
     justify-self: start;
   }
+}
+
+/* STONE — seletor de cursos */
+.admin-form select.admin-course-select {
+  color-scheme: dark !important;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #0b0b0b !important;
+  color: #fff !important;
+  border: 1px solid #303030 !important;
+  border-bottom: 1px solid #ff4d0a !important;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+/* Hover e foco: sem azul */
+.admin-form select.admin-course-select:hover,
+.admin-form select.admin-course-select:focus,
+.admin-form select.admin-course-select:focus-visible,
+.admin-form select.admin-course-select:active {
+  background-color: #111 !important;
+  color: #fff !important;
+  border-color: #ff4d0a !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Opções do menu */
+.admin-form select.admin-course-select option {
+  background-color: #111 !important;
+  color: #fff !important;
+}
+
+/* Opção selecionada */
+.admin-form select.admin-course-select option:checked {
+  background-color: #ff4d0a !important;
+  color: #fff !important;
 }
