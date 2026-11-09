@@ -27,7 +27,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: [
+      'http://localhost:3001',
+      'https://online-course-platform-1-z6a2.onrender.com',
+    ],
   });
 
   await app.listen(process.env.PORT ?? 3000);
