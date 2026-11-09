@@ -16,6 +16,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       database: url.pathname.slice(1),
       connectTimeout: 10000,
       allowPublicKeyRetrieval: true,
+      ssl: {
+        rejectUnauthorized: true,
+      },
     });
 
     super({ adapter });
