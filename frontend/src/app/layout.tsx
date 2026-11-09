@@ -3,7 +3,7 @@ import './globals.css';
 import { SessionProvider } from '@/components/session-provider';
 
 export const metadata: Metadata = {
-  title: 'Curso Stone',
+  title: 'Curso-Stone',
   icons: {
     icon: '/icon.svg',
   },
