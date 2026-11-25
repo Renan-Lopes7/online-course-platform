@@ -24,10 +24,6 @@ O projeto foi desenvolvido com foco em boas práticas de desenvolvimento, arquit
 
 https://online-course-platform-1-z6a2.onrender.com
 
-**API Backend:**
-
-https://online-course-platform-scgs.onrender.com
-
 > Algumas integrações ainda estão em preparação para operação em produção.
 
 ## Funcionalidades
