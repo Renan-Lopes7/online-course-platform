@@ -82,6 +82,26 @@ A aplicação utiliza uma arquitetura separada entre frontend e backend, permiti
 | Asaas | Processamento de pagamentos |
 | Videas | Hospedagem e disponibilização de vídeos |
 
+## Documentação da API
+
+A API REST da plataforma foi documentada utilizando **Swagger (OpenAPI)**, permitindo visualizar os endpoints disponíveis, seus métodos HTTP, parâmetros, DTOs e requisitos de autenticação.
+
+A documentação interativa está disponível em:
+
+**[Acessar documentação Swagger da STONE](https://online-course-platform-scgs.onrender.com/api)**
+
+A documentação contempla os seguintes módulos:
+
+- **App:** endpoint principal da aplicação.
+- **User:** gerenciamento de usuários.
+- **Auth:** autenticação de usuários.
+- **Curso:** gerenciamento de cursos.
+- **Aula:** gerenciamento e acesso às aulas.
+- **Compra:** gerenciamento de compras.
+- **Asaas:** integração de pagamentos PIX e recebimento de Webhooks.
+
+A documentação também disponibiliza o recurso de autorização para endpoints protegidos por JWT.
+
 ## Integração de pagamentos
 
 A plataforma utiliza o Asaas para processamento de pagamentos via PIX.
@@ -109,6 +129,8 @@ O projeto implementa recursos voltados à proteção das informações e ao cont
 Atualmente, a plataforma está hospedada na Render, enquanto o banco de dados utiliza a infraestrutura da TiDB Cloud.
 
 Os endereços atuais utilizam o domínio disponibilizado pela Render.
+
+Como parte da evolução da plataforma, a utilização de um domínio próprio poderá ser implementada futuramente, fortalecendo a identidade digital e proporcionando endereços personalizados.
 
 ## Executando o projeto localmente
 
